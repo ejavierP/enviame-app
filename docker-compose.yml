@@ -1,0 +1,122 @@
+version: "3.8"
+services:
+  
+  ecommerce-app:
+  
+    build: ${ECOMMERCE_SERVICE_PATH}/Docker/app/.
+
+    container_name: ${ECOMMERCE_SERVICE_NAME}
+
+    restart: always 
+  
+    env_file:
+      - ${ECOMMERCE_SERVICE_PATH}/Docker/app/.env
+      - .env
+    
+    environment:
+      - SEQUELIZE_HOST=${ECOMMERCE_MYSQL_NAME}
+      - SEQUELIZE_DATABASE=${ECOMMERCE_MYSQL_DATABASE}
+      - SEQUELIZE_DIALECT=mysql
+      - SEQUELIZE_PASSWORD=root
+      - SEQUELIZE_USERNAME=root
+
+    command: ["npm", "run", "dev"]
+  
+    volumes:
+      - ${ECOMMERCE_SERVICE_PATH}/src:/app/src
+      - ${ECOMMERCE_SERVICE_PATH}/tests:/app/tests
+
+
+    ports:
+      -  ${ECOMMERCE_APP_PORT}:8080
+
+    depends_on:
+         ecommerce-mysql:
+           condition:  service_healthy
+
+ 
+
+  
+  ecommerce-mysql:
+  
+    build: ${ECOMMERCE_SERVICE_PATH}/Docker/database/.
+  
+    restart: always
+  
+    container_name: ${ECOMMERCE_MYSQL_NAME}
+  
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=${ECOMMERCE_MYSQL_DATABASE}
+
+    ports:
+      - 3301:3301
+
+    healthcheck:
+      test: ["CMD-SHELL", 'mysqladmin ping']
+      interval: 10s
+      timeout: 2s
+      retries: 10
+  
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+
+    
+  delivery-app:
+  
+    build: ${DELIVERY_SERVICE_PATH}/Docker/app/.
+
+    container_name: ${DELIVERY_SERVICE_NAME}
+
+    restart: always 
+  
+    env_file:
+      - ${DELIVERY_SERVICE_PATH}/Docker/app/.env
+      - .env
+    
+    environment:
+      - SEQUELIZE_HOST=${DELIVERY_MYSQL_NAME}
+      - SEQUELIZE_DATABASE=${DELIVERY_MYSQL_DATABASE}
+      - SEQUELIZE_DIALECT=mysql
+      - SEQUELIZE_PASSWORD=root
+      - SEQUELIZE_USERNAME=root
+
+    command: ["npm", "run", "dev"]
+  
+    volumes:
+      - ${DELIVERY_SERVICE_PATH}/src:/app/src
+      - ${DELIVERY_SERVICE_PATH}/tests:/app/tests
+      
+    ports:
+      - ${DELIVERY_MYSQL_PORT}:8080
+
+    depends_on:
+         delivery-mysql:
+           condition:  service_healthy
+
+    
+  delivery-mysql:
+  
+    build: ${DELIVERY_SERVICE_PATH}/Docker/database/.
+  
+    restart: always
+  
+    container_name: ${DELIVERY_MYSQL_NAME}
+  
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=${DELIVERY_MYSQL_DATABASE}
+
+    ports:
+      - 3306:3306
+
+    healthcheck:
+      test: ["CMD-SHELL", 'mysqladmin ping']
+      interval: 10s
+      timeout: 2s
+      retries: 10
+  
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      
+  
