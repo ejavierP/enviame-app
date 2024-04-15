@@ -1,5 +1,8 @@
 const Store = require("../entities/store");
-
+const {
+  BadRequestException,
+  NotFoundException,
+} = require("../../frameworks/http/errors/index");
 class ManageStoresUsecase {
   constructor(storesRepository, usersRepository) {
     this.storesRepository = storesRepository;
@@ -11,7 +14,13 @@ class ManageStoresUsecase {
   }
 
   async getStore(id) {
-    return await this.storesRepository.getStore(id);
+    const store = await this.storesRepository.getStore(id);
+    if (!store) {
+      throw new NotFoundException(
+        "No se encontro una tienda con el id especificado"
+      );
+    }
+    return store;
   }
 
   async createStore(data) {
@@ -27,7 +36,7 @@ class ManageStoresUsecase {
       role: "marketplace",
     });
     if (!seller) {
-      throw new Error(
+      throw new NotFoundException(
         "No se encontraron resultados para el sellerId especificado"
       );
     }
@@ -38,19 +47,27 @@ class ManageStoresUsecase {
   }
 
   async updateStore(id, data) {
-    const store = new Store(
-      id,
-      data.nombre,
-      data.descripcion,
-      data.warehouseAddress
-    );
-    await this.storesRepository.updateStore(store);
+    try {
+      const store = new Store(
+        id,
+        data.nombre,
+        data.descripcion,
+        data.warehouseAddress
+      );
+      await this.storesRepository.updateStore(store);
 
-    return store;
+      return store;
+    } catch (error) {
+      throw new BadRequestException("Ocurrio un error actualizando la tienda");
+    }
   }
 
   async deleteStore(id) {
-    await this.storesRepository.deleteStore(id);
+    try {
+      await this.storesRepository.deleteStore(id);
+    } catch (error) {
+      throw new BadRequestException("Ocurrio un error borrando la tienda");
+    }
   }
 }
 

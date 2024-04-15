@@ -22,7 +22,10 @@ module.exports = function (permission) {
           "view-single-buy-orders",
           "view-buy-orders",
         ],
-        marketplace: ["create-buy-orders", "cancel-buy-order","create-stores"],
+        marketplace: [
+          "create-buy-orders",
+          "cancel-buy-order",
+        ],
       };
 
       const permissions = permissionsByRole[req.role];
@@ -37,7 +40,7 @@ module.exports = function (permission) {
           .json({ message: "No tienes permisos para realizar esa accion" })
       );
     } catch (err) {
-      return next(res.status(401).json({ error: err.message }));
+      return next(res.status(401).json({ message: err.message }));
     }
   };
 };

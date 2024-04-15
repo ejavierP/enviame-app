@@ -6,7 +6,7 @@ module.exports = function (schema) {
       next();
     } catch (err) {
       if (err.isJoi)
-        return next(res.status(500).json({ error: err.details[0].message }));
+        return next(res.status(500).json({ message: err.details[0].message }));
     }
   };
 };

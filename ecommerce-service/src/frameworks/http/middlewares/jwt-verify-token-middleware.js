@@ -12,7 +12,7 @@ module.exports = function () {
       req.role = decodedToken.role;
       return next();
     } catch (err) {
-      return next(res.status(401).json({ error: err.message }));
+      return next(res.status(401).json({ message: err.message }));
     }
   };
 };
