@@ -1,8 +1,9 @@
 const Store = require("../entities/store");
 
 class ManageStoresUsecase {
-  constructor(storesRepository) {
+  constructor(storesRepository, usersRepository) {
     this.storesRepository = storesRepository;
+    this.usersRepository = usersRepository;
   }
 
   async getStores() {
@@ -14,7 +15,22 @@ class ManageStoresUsecase {
   }
 
   async createStore(data) {
-    const store = new Store(undefined, data.name, data.description);
+    const store = new Store(
+      undefined,
+      data.name,
+      data.description,
+      undefined,
+      data.sellerId
+    );
+    const seller = await this.usersRepository.getUserWithFilters({
+      id: data.sellerId,
+      role: "marketplace",
+    });
+    if (!seller) {
+      throw new Error(
+        "No se encontraron resultados para el sellerId especificado"
+      );
+    }
     const id = await this.storesRepository.createStore(store);
     store.id = id;
 
@@ -22,7 +38,12 @@ class ManageStoresUsecase {
   }
 
   async updateStore(id, data) {
-    const store = new Store(id, data.nombre, data.descripcion,data.warehouseAddress);
+    const store = new Store(
+      id,
+      data.nombre,
+      data.descripcion,
+      data.warehouseAddress
+    );
     await this.storesRepository.updateStore(store);
 
     return store;

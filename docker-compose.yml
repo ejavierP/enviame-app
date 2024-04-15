@@ -19,6 +19,8 @@ services:
       - SEQUELIZE_DIALECT=mysql
       - SEQUELIZE_PASSWORD=root
       - SEQUELIZE_USERNAME=root
+      - JWT_SECRET_KEY=0f21689e-de14-440c-9bce-7cf670af922d
+      - JWT_SECRET_KEY_EXPIRE_IN=1h
 
     command: ["npm", "run", "dev"]
   
@@ -54,7 +56,7 @@ services:
 
     healthcheck:
       test: ["CMD-SHELL", 'mysqladmin ping']
-      interval: 5s
+      interval: 10s
       timeout: 2s
       retries: 3
   
@@ -112,7 +114,7 @@ services:
 
     healthcheck:
       test: ["CMD-SHELL", 'mysqladmin ping']
-      interval: 5s
+      interval: 10s
       timeout: 2s
       retries: 3
   

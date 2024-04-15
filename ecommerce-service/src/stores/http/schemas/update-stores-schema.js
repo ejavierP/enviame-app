@@ -1,4 +1,6 @@
-const updateSellerStore = Joi.object().keys({
+const Joi = require("joi");
+
+const updateStore = Joi.object().keys({
   name: Joi.string()
     .required()
     .messages({ "any.required": "Debe proveer un nombre" }),
@@ -10,4 +12,4 @@ const updateSellerStore = Joi.object().keys({
     .messages({ "any.required": "Debe proveer una descripcion" }),
 });
 
-module.exports = { updateSellerStore };
+module.exports = { updateStore };

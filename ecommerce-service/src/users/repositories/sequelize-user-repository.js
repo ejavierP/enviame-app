@@ -17,8 +17,7 @@ class SequelizeUserRepository {
       timestamps: false,
     };
 
-
-    this.userModel = userModel(sequelizeClient,DataTypes,options);
+    this.userModel = userModel(sequelizeClient, DataTypes, options);
   }
 
   async getUsers() {
@@ -31,6 +30,12 @@ class SequelizeUserRepository {
 
   async getUser(id) {
     return await this.userModel.findByPk(id);
+  }
+
+  async getUserWithFilters(filters) {
+    return await this.userModel.findOne({
+      where: { ...filters },
+    });
   }
 
   async createUser(user) {

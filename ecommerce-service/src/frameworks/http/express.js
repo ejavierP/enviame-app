@@ -1,17 +1,19 @@
-const express = require('express');
+const express = require("express");
+
+const checkTokenMiddleware = require("./middlewares/jwt-verify-token-middleware");
 
 // Módulo para crear una aplicación en Express
 // recibiendo las dependencias externamente.
 
 async function createExpressApp(routers) {
-
   // Aplicación en Express.
 
   let app = express();
-
   // Configuraciones varias.
 
   app.use(express.json());
+
+  app.use(checkTokenMiddleware());
 
   // Usar rutas recibidas.
 
@@ -28,7 +30,6 @@ async function createExpressApp(routers) {
   });
 
   return app;
-
 }
 
-module.exports = createExpressApp
+module.exports = createExpressApp;

@@ -15,6 +15,7 @@ module.exports = (sequelizeClient, DataTypes, options) => {
         allowNull: true,
       },
       password: DataTypes.STRING,
+      role: DataTypes.STRING,
     },
     options
   );

@@ -11,10 +11,8 @@ module.exports = (sequelizeClient, DataTypes, options) => {
       name: DataTypes.STRING,
       description: DataTypes.STRING,
       warehouseAddress: DataTypes.STRING,
-      sellerId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
+      sellerId: DataTypes.INTEGER,
+    
     },
     options
   );
