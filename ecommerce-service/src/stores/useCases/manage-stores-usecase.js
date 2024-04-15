@@ -15,9 +15,6 @@ class ManageStoresUsecase {
 
   async createStore(data) {
     const store = new Store(undefined, data.name, data.description);
-    if(data.warehouseAddress) {
-      store.warehouseAddress = data.warehouseAddress
-    }
     const id = await this.storesRepository.createStore(store);
     store.id = id;
 

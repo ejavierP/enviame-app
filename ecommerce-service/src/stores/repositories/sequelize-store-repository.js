@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const Store = require("./models/store-model");
+const StoreModel = require("./models/store-model");
 
 class SequelizeStoreRepository {
   constructor(sequelizeClient, test = false) {
@@ -11,6 +11,11 @@ class SequelizeStoreRepository {
     if (test) {
       tableName += "_test";
     }
+
+    const options = {
+      tableName: tableName,
+      timestamps: false,
+    };
 
     this.storeModel = StoreModel(sequelizeClient,DataTypes,options);
   }

@@ -3,12 +3,18 @@ const SequelizeClient = require("./frameworks/db/sequelize");
 const StoreRepository = require("./stores/repositories/sequelize-store-repository");
 const createStoreRouter = require("./stores/http/routers/stores-router");
 const ManageStoresUseCase = require("./stores/useCases/manage-stores-usecase");
+const ManageUsersUsecase = require('./users/useCases/manage-stores-usecase');
+const UserRepository = require('./users/repositories/sequelize-user-repository');
+const createUserRouter = require("./users/http/routers/users-router");
 
 const sequelizeClient = new SequelizeClient();
 const storeRepository = new StoreRepository(sequelizeClient);
 const manageStoresUseCase = new ManageStoresUseCase(storeRepository);
+const userRepository = new UserRepository(sequelizeClient);
+const manageUsersUseCase = new ManageUsersUsecase(userRepository);
 sequelizeClient.syncDatabase();
 
-let routers = [createStoreRouter(manageStoresUseCase)];
+let routers = [createStoreRouter(manageStoresUseCase),
+               createUserRouter(manageUsersUseCase)];
 
 const app = createExpressApp(routers);
