@@ -11,7 +11,7 @@ module.exports = function (permission) {
           "view-single-store",
           "view-buy-orders",
         ],
-        seller_user: [
+        seller: [
           "update-stores",
           "view-stores",
           "create-products",
