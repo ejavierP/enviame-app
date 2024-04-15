@@ -54,9 +54,9 @@ services:
 
     healthcheck:
       test: ["CMD-SHELL", 'mysqladmin ping']
-      interval: 10s
+      interval: 5s
       timeout: 2s
-      retries: 10
+      retries: 1
   
     command: 
       - --default-authentication-plugin=mysql_native_password
@@ -112,9 +112,9 @@ services:
 
     healthcheck:
       test: ["CMD-SHELL", 'mysqladmin ping']
-      interval: 10s
+      interval: 5s
       timeout: 2s
-      retries: 10
+      retries: 1
   
     command: 
       - --default-authentication-plugin=mysql_native_password
