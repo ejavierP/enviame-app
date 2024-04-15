@@ -1,10 +1,11 @@
 
 
 class Store {
-  constructor(id,nombre, descripcion) {
+  constructor(id,name, description,warehouseAddress) {
     this.id = id;
-    this.nombre = nombre;
-    this.descripcion = descripcion;
+    this.name = name;
+    this.description = description;
+    this.warehouseAddress = warehouseAddress;
   }
 }
 

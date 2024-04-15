@@ -56,7 +56,7 @@ services:
       test: ["CMD-SHELL", 'mysqladmin ping']
       interval: 5s
       timeout: 2s
-      retries: 1
+      retries: 3
   
     command: 
       - --default-authentication-plugin=mysql_native_password
@@ -114,7 +114,7 @@ services:
       test: ["CMD-SHELL", 'mysqladmin ping']
       interval: 5s
       timeout: 2s
-      retries: 1
+      retries: 3
   
     command: 
       - --default-authentication-plugin=mysql_native_password

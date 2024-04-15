@@ -1,12 +1,13 @@
 const Joi = require("joi");
 
 const createStore = Joi.object().keys({
-  nombre: Joi.string()
+  name: Joi.string()
     .required()
     .messages({ "any.required": "Debe proveer un nombre" }),
-  descripcion: Joi.string()
+  description: Joi.string()
     .required()
     .messages({ "any.required": "Debe proveer una descripcion" }),
+  warehouseAddress: Joi.string().optional()
 });
 
 module.exports = { createStore };

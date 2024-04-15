@@ -14,7 +14,10 @@ class ManageStoresUsecase {
   }
 
   async createStore(data) {
-    const store = new Store(undefined, data.nombre, data.descripcion);
+    const store = new Store(undefined, data.name, data.description);
+    if(data.warehouseAddress) {
+      store.warehouseAddress = data.warehouseAddress
+    }
     const id = await this.storesRepository.createStore(store);
     store.id = id;
 
@@ -22,7 +25,7 @@ class ManageStoresUsecase {
   }
 
   async updateStore(id, data) {
-    const store = new Store(id, data.nombre, data.descripcion);
+    const store = new Store(id, data.nombre, data.descripcion,data.warehouseAddress);
     await this.storesRepository.updateStore(store);
 
     return store;
