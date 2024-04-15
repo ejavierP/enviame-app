@@ -22,7 +22,7 @@ class SequelizeStoreRepository {
       },
 
       nombre: DataTypes.STRING,
-      description: DataTypes.STRING,
+      descripcion: DataTypes.STRING,
     };
 
     const options = {
@@ -51,13 +51,12 @@ class SequelizeStoreRepository {
   }
 
   async createStore(store) {
-
     const data = await this.storeModel.create(store);    
     return data.id;
 
   }
 
-  async updateBook(store) {
+  async updateStore(store) {
 
     const options = {
       where: {

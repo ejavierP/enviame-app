@@ -1,5 +1,6 @@
 const express = require("express");
-const schemaValidate = require("../middlewares/joi-validate-middleware");
+const validateSchema = require("../../../frameworks/http/middlewares/joi-validate-middleware");
+const { createStore } = require('../schemas/index')
 
 function createStoreRouter(manageStoresUsecase) {
   const router = express.Router();
@@ -9,25 +10,25 @@ function createStoreRouter(manageStoresUsecase) {
     res.status(200).send(stores);
   });
 
-  router.get("/store/:id", async (req, res) => {
+  router.get("/stores/:id", async (req, res) => {
     const id = req.params.id;
     const store = await manageStoresUsecase.getStore(id);
 
     res.status(200).send(store);
   });
 
-  router.post("/stores", schemaValidate("createStore"), async (req, res) => {
+  router.post("/stores", validateSchema(createStore), async (req, res) => {
     const store = await manageStoresUsecase.createStore(req.body);
     res.status(201).send(store);
   });
 
-  router.put("/store/:id", async (req, res) => {
+  router.put("/stores/:id", async (req, res) => {
     const id = req.params.id;
-    const store = await manageStoresUsecase.updateBook(id, req.body);
+    const store = await manageStoresUsecase.updateStore(id, req.body);
     res.status(200).send(store);
   });
 
-  router.delete("/store/:id", async (req, res) => {
+  router.delete("/stores/:id", async (req, res) => {
     const id = req.params.id;
     await manageStoresUsecase.deleteStore(id);
 
