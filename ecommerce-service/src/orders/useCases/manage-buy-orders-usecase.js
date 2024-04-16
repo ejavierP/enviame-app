@@ -14,12 +14,15 @@ class ManageBuyOrdersUsecase {
   async createBuyOrder(buyOrderData, userData) {
     try {
       const productItems = await this.transformProducts(buyOrderData.products);
+
       const buyOrdersGrouped = this.groupProductsOrders(productItems, userData);
-      await Promise.all(
+
+      await Promise.all([
         buyOrdersGrouped.map(async (buyOrder) => {
           await this.buyOrdersRepository.createBuyOrder(buyOrder);
-        })
-      );
+        }),
+        await this.reduceProductStock(productItems),
+      ]);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -56,13 +59,15 @@ class ManageBuyOrdersUsecase {
             `Se debe asignar una direccion de almacen para poder comprar en la tienda: ${store.name}`
           );
         }
+        const availableStock = product.quantity - buyOrderproduct.quantity;
         productItems.push({
+          id: product.id,
           name: product.name,
           sku: product.sku,
-          quantity: product.quantity,
-          sellerId: store.sellerId,
+          quantity: buyOrderproduct.quantity,
           warehouseAddress: store.warehouseAddress,
           price: product.price,
+          availableStock: availableStock,
         });
       })
     );
@@ -77,9 +82,8 @@ class ManageBuyOrdersUsecase {
         productInBuyOrderIndex = buyOrders.findIndex((x) =>
           x?.products.findIndex((p) => p.sellerId === product.sellerId)
         );
-        
       }
-      if (productInBuyOrderIndex > -1 ) {
+      if (productInBuyOrderIndex > -1) {
         buyOrders[productInBuyOrderIndex].products.push({
           name: product.name,
           sku: product.sku,
@@ -105,6 +109,15 @@ class ManageBuyOrdersUsecase {
       }
     });
     return buyOrders;
+  }
+
+  async reduceProductStock(products) {
+    products.map(async (productItem) => {
+      await this.productsRepository.updateProduct({
+        id: productItem.id,
+        quantity: productItem.availableStock,
+      });
+    });
   }
 }
 

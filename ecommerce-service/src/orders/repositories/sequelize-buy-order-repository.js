@@ -46,7 +46,6 @@ class SequelizeBuyOrderRepository {
   }
 
   async createBuyOrder(buyOrder) {
-    const tId = await this.sequelizeClient.sequelize.transaction();
     const buyOrderData = await this.buyOrderModel.create(
       {
         status: buyOrder.status,
@@ -54,20 +53,19 @@ class SequelizeBuyOrderRepository {
         storeAddress: buyOrder.storeAddress,
         customerName: buyOrder.customerName,
         customerAddress: buyOrder.customerAddress,
-      },
-      { transaction: tId }
+      }
     );
 
     const buyOrderId = buyOrderData.id;
 
     if (buyOrderId) {
-      await this.createBuyOrderItems(buyOrder.products, buyOrderId, tId);
+      await this.createBuyOrderItems(buyOrder.products, buyOrderId);
     }
 
     return buyOrderId;
   }
 
-  async createBuyOrderItems(products, buyOrderId, tId) {
+  async createBuyOrderItems(products, buyOrderId) {
     await Promise.all(
       products.map(async (product) => {
         await this.buyOrderItemModel.create(
@@ -76,8 +74,7 @@ class SequelizeBuyOrderRepository {
             sku: product.sku,
             quantity: product.quantity,
             buyOrderId: buyOrderId,
-          },
-          { transaction: tId }
+          }
         );
       })
     );
