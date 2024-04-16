@@ -3,6 +3,7 @@ const {
   BadRequestException,
   NotFoundException,
 } = require("../../frameworks/http/errors/index");
+const { userRoles } = require("../../users/utils/user-role");
 class ManageStoresUsecase {
   constructor(storesRepository, usersRepository) {
     this.storesRepository = storesRepository;
@@ -33,7 +34,7 @@ class ManageStoresUsecase {
     );
     const seller = await this.usersRepository.getUserWithFilters({
       id: data.sellerId,
-      role: "seller",
+      role: userRoles.SELLER,
     });
     if (!seller) {
       throw new NotFoundException(
