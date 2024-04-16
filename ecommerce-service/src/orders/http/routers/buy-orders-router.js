@@ -2,9 +2,6 @@ const express = require("express");
 const validateSchema = require("../../../frameworks/http/middlewares/joi-validate-middleware");
 const { createBuyOrder } = require("../schemas/index");
 const checkPermission = require("../../../frameworks/http/middlewares/role-check-middleware");
-const { userRoles } = require("../../../users/utils/user-role");
-const orderValidStatusByRole = require("../../utils/get-order-valid-status-by-role");
-const { BadRequestException } = require("../../../frameworks/http/errors");
 const { buildOrderFilters } = require("../../utils/build-order-filters-util");
 
 function createBuyOrdersRouter(ManageBuyOrdersUsecase) {
