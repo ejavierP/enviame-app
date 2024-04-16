@@ -4,6 +4,8 @@ const { createBuyOrder } = require("../schemas/index");
 const checkPermission = require("../../../frameworks/http/middlewares/role-check-middleware");
 const { userRoles } = require("../../../users/utils/user-role");
 const orderValidStatusByRole = require("../../utils/get-order-valid-status-by-role");
+const { BadRequestException } = require("../../../frameworks/http/errors");
+const { buildOrderFilters } = require("../../utils/build-order-filters-util");
 
 function createBuyOrdersRouter(ManageBuyOrdersUsecase) {
   const router = express.Router();
@@ -32,25 +34,8 @@ function createBuyOrdersRouter(ManageBuyOrdersUsecase) {
     async (req, res) => {
       try {
         const role = req.user.role;
-        const filters = {};
-        const isSellerUser = role && role === userRoles.SELLER;
-        const isMarketPlaceUser = role && role === userRoles.MARKETPLACE;
         const status = req.query.status;
-        const getValidStatus = orderValidStatusByRole[role];
-        if (
-          getValidStatus.length &&
-          status &&
-          getValidStatus.includes(status)
-        ) {
-          filters.status = status;
-        }
-        if (isSellerUser) {
-          filters.sellerId = req.user.id;
-        }
-
-        if (isMarketPlaceUser) {
-          filters.createdBy = req.user.id;
-        }
+        const filters = buildOrderFilters(role, status, undefined, req.user.id);
         const buyOrder = await ManageBuyOrdersUsecase.getBuyOrders(filters);
         res.status(200).json(buyOrder);
       } catch (error) {
@@ -67,26 +52,7 @@ function createBuyOrdersRouter(ManageBuyOrdersUsecase) {
         const id = req.params.id;
         const role = req.user.role;
         const status = req.query.status;
-        const filters = { id: id };
-        const isSellerUser = role && role === userRoles.SELLER;
-        const getValidStatus = orderValidStatusByRole[role];
-        const isMarketPlaceUser = role && role === userRoles.MARKETPLACE;
-
-        if (
-          getValidStatus.length &&
-          status &&
-          getValidStatus.includes(status)
-        ) {
-          filters.status = status;
-        }
-        if (isSellerUser) {
-          filters.sellerId = req.user.id;
-        }
-
-        if (isMarketPlaceUser) {
-          filters.createdBy = req.user.id;
-        }
-
+        const filters = buildOrderFilters(role, status, id, req.user.id);
         const buyOrder = await ManageBuyOrdersUsecase.getBuyOrder(filters);
         res.status(200).json(buyOrder);
       } catch (error) {
