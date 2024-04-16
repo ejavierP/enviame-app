@@ -1,13 +1,24 @@
 const { userRoles } = require("../../users/utils/user-role");
+const { orderStatus } = require("./order-status-util");
 
 const orderValidStatusByRole = {
-  [userRoles.MARKETPLACE]: ["created", "confirmed", "dispatched", "delivered"],
-  [userRoles.SELLER]: ["created", "confirmed", "dispatched", "delivered"],
+  [userRoles.MARKETPLACE]: [
+    orderStatus.CREATED,
+    orderStatus.CONFIRMED,
+    orderStatus.DISPATCHED,
+    orderStatus.DELIVERED,
+  ],
+  [userRoles.SELLER]: [
+    orderStatus.CREATED,
+    orderStatus.CONFIRMED,
+    orderStatus.DISPATCHED,
+    orderStatus.DELIVERED,
+  ],
   [userRoles.MARKETPLACE_ADMIN]: [
-    "created",
-    "confirmed",
-    "dispatched",
-    "cancelled",
+    orderStatus.CREATED,
+    orderStatus.CONFIRMED,
+    orderStatus.DISPATCHED,
+    orderStatus.CANCELLED,
   ],
 };
 

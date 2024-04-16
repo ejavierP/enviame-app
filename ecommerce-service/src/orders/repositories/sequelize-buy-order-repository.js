@@ -52,7 +52,6 @@ class SequelizeBuyOrderRepository {
   }
 
   async createBuyOrder(buyOrder) {
-    console.log('***',buyOrder)
     const buyOrderData = await this.buyOrderModel.create({
       status: buyOrder.status,
       sellerId: buyOrder.sellerId,

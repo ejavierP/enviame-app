@@ -4,7 +4,7 @@ const {
   NotFoundException,
 } = require("../../frameworks/http/errors/index");
 
-const { userRoles } = require("../../users/utils/user-role");
+const { orderStatusSequence } = require("../utils/order-status-sequence-util");
 
 class ManageBuyOrdersUsecase {
   constructor(buyOrdersRepository, productsRepository, storesRepository) {
@@ -126,7 +126,7 @@ class ManageBuyOrdersUsecase {
   }
 
   async getBuyOrders(filters) {
-    return await this.buyOrdersRepository.getBuyOrderWithFilters(filters);
+    return await this.buyOrdersRepository.getBuyOrdersWithFilters(filters);
   }
 
   async getBuyOrder(filters) {
@@ -142,7 +142,30 @@ class ManageBuyOrdersUsecase {
       }
       return buyOrder;
     } catch (error) {
-      throw new BadRequestException(error);
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async updateOrderStatus(orderId, status) {
+    try {
+      const buyOrder = await this.buyOrdersRepository.getBuyOrder(orderId);
+
+      if (buyOrder) {
+        const nextOrderStatus = orderStatusSequence[buyOrder.status];
+
+        if (nextOrderStatus && nextOrderStatus === status) {
+          await this.buyOrdersRepository.updateBuyOrder({
+            id: orderId,
+            status,
+          });
+        } else {
+          throw new BadRequestException(
+            `El status enviado no corresponde a la secuencia proximo: ${nextOrderStatus.toUpperCase()}`
+          );
+        }
+      }
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
   }
 }

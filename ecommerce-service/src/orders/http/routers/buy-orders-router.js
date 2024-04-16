@@ -58,6 +58,22 @@ function createBuyOrdersRouter(ManageBuyOrdersUsecase) {
     }
   );
 
+  router.patch(
+    "/orders/:id/status/update",
+    checkPermission("update-buy-orders-status"),
+    async (req, res) => {
+      try {
+        const id = req.params.id;
+        await ManageBuyOrdersUsecase.updateOrderStatus(id, req.body.status);
+        res
+          .status(200)
+          .json({ message: "Se transiciono la orden correctamente" });
+      } catch (error) {
+        res.status(error.status).send({ message: error.message });
+      }
+    }
+  );
+
   return router;
 }
 

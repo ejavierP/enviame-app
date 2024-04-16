@@ -21,7 +21,7 @@ module.exports = function (permission) {
           "view-single-product",
           "view-single-buy-orders",
           "view-buy-orders",
-          "update-buy-orders",
+          "update-buy-orders-status",
         ],
         marketplace: [
           "view-single-buy-orders",
