@@ -18,6 +18,7 @@ module.exports = (sequelizeClient, DataTypes, options) => {
   );
   StoreModel.associate = function (models) {
     StoreModel.belongsTo(models.User, { foreignKey: "sellerId", as: "user" });
+    StoreModel.hasMany(models.Product, { as: "products" });
   };
   return StoreModel;
 };

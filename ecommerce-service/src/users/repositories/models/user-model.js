@@ -22,6 +22,7 @@ module.exports = (sequelizeClient, DataTypes, options) => {
 
   userModel.associate = function (models) {
     userModel.hasMany(models.Store, { as: "stores" });
+    userModel.hasMany(models.BuyOrder, { as: "buyOrders" });
   };
   return userModel;
 };

@@ -33,7 +33,7 @@ class ManageStoresUsecase {
     );
     const seller = await this.usersRepository.getUserWithFilters({
       id: data.sellerId,
-      role: "marketplace",
+      role: "seller",
     });
     if (!seller) {
       throw new NotFoundException(

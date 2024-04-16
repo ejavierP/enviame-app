@@ -9,7 +9,7 @@ module.exports = function () {
       const token = req.header("Authorization");
       const tokenNormalized = token.split(" ")[1];
       const decodedToken = await verify(tokenNormalized);
-      req.role = decodedToken.role;
+      req.user = decodedToken.user;
       return next();
     } catch (err) {
       return next(res.status(401).json({ message: err.message }));

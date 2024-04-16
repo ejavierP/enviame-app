@@ -4,7 +4,7 @@ async function sign(userData) {
   const secretKey = process.env.JWT_SECRET_KEY;
   const expiresIn = process.env.JWT_SECRET_KEY_EXPIRE_IN;
   const token = jwt.sign(
-    { user: userData.name, role: userData.role },
+    { user: userData },
     secretKey,
     { expiresIn: expiresIn }
   );

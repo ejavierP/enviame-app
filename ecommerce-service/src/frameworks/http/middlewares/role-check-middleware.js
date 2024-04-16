@@ -13,7 +13,7 @@ module.exports = function (permission) {
         ],
         seller: [
           "update-stores",
-          "view-stores",
+          "view-single-store",
           "create-products",
           "view-products",
           "update-products",
@@ -28,7 +28,7 @@ module.exports = function (permission) {
         ],
       };
 
-      const permissions = permissionsByRole[req.role];
+      const permissions = permissionsByRole[req.user.role];
 
       if (permissions.includes(permission)) {
         return next();

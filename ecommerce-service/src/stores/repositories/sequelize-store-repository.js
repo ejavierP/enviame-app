@@ -48,13 +48,8 @@ class SequelizeStoreRepository {
   }
 
   async deleteStore(id) {
-    const options = {
-      where: {
-        id: id,
-      },
-    };
-
-    await this.storeModel.destroy(options);
+    const store = await this.storeModel.findOne({ where: { id } });
+    await store.destroy();
   }
 
   async deleteAllStores() {
