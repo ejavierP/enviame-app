@@ -15,6 +15,7 @@ module.exports = (sequelizeClient, DataTypes, options) => {
       storeAddress: DataTypes.STRING,
       customerName: DataTypes.STRING,
       customerAddress: DataTypes.STRING,
+      createdBy: DataTypes.INTEGER,
     },
     options
   );
@@ -24,7 +25,11 @@ module.exports = (sequelizeClient, DataTypes, options) => {
       foreignKey: "sellerId",
       as: "user",
     });
-    BuyOrderModel.hasMany(models.BuyOrderItem, {as: "products"});
+    BuyOrderModel.belongsTo(models.User, {
+      foreignKey: "createdBy",
+      as: "createdBy",
+    });
+    BuyOrderModel.hasMany(models.BuyOrderItem, { as: "products" });
   };
   return BuyOrderModel;
 };

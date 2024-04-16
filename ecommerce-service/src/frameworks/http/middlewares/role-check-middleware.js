@@ -21,8 +21,11 @@ module.exports = function (permission) {
           "view-single-product",
           "view-single-buy-orders",
           "view-buy-orders",
+          "update-buy-orders",
         ],
         marketplace: [
+          "view-single-buy-orders",
+          "view-buy-orders",
           "create-buy-orders",
           "cancel-buy-order",
         ],

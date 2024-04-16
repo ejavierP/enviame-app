@@ -1,5 +1,6 @@
 const User = require("../entities/user");
 const { sign } = require("../../frameworks/http/jwt");
+const { userRoles } = require("../utils/user-role");
 
 class ManageUsersUsecase {
   constructor(usersRepository) {
@@ -14,7 +15,7 @@ class ManageUsersUsecase {
       userData.password,
       userData.shippingAddress
     );
-    user.role = "marketplace";
+    user.role = userRoles.MARKETPLACE;
     const id = await this.usersRepository.createUser(user);
     user.id = id;
 

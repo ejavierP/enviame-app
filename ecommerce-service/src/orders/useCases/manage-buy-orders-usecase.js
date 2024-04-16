@@ -4,6 +4,8 @@ const {
   NotFoundException,
 } = require("../../frameworks/http/errors/index");
 
+const { userRoles } = require("../../users/utils/user-role");
+
 class ManageBuyOrdersUsecase {
   constructor(buyOrdersRepository, productsRepository, storesRepository) {
     this.buyOrdersRepository = buyOrdersRepository;
@@ -68,6 +70,7 @@ class ManageBuyOrdersUsecase {
           warehouseAddress: store.warehouseAddress,
           price: product.price,
           availableStock: availableStock,
+          sellerId: store.sellerId,
         });
       })
     );
@@ -83,6 +86,7 @@ class ManageBuyOrdersUsecase {
           x?.products.findIndex((p) => p.sellerId === product.sellerId)
         );
       }
+
       if (productInBuyOrderIndex > -1) {
         buyOrders[productInBuyOrderIndex].products.push({
           name: product.name,
@@ -103,7 +107,8 @@ class ManageBuyOrdersUsecase {
           product.sellerId,
           userData.shippingAddress,
           userData.name,
-          product.warehouseAddress
+          product.warehouseAddress,
+          userData.id
         );
         buyOrders.push(buyOrder);
       }
@@ -118,6 +123,27 @@ class ManageBuyOrdersUsecase {
         quantity: productItem.availableStock,
       });
     });
+  }
+
+  async getBuyOrders(filters) {
+    return await this.buyOrdersRepository.getBuyOrderWithFilters(filters);
+  }
+
+  async getBuyOrder(filters) {
+    try {
+      const buyOrder = await this.buyOrdersRepository.getBuyOrderWithFilters(
+        filters
+      );
+
+      if (!buyOrder) {
+        throw new NotFoundException(
+          `No se encontro una orden para el id ${filters.id} `
+        );
+      }
+      return buyOrder;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }
 

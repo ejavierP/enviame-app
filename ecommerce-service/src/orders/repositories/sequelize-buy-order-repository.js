@@ -39,6 +39,12 @@ class SequelizeBuyOrderRepository {
     return await this.buyOrderModel.findByPk(id);
   }
 
+  async getBuyOrdersWithFilters(filters) {
+    return await this.buyOrderModel.findAll({
+      where: { ...filters },
+    });
+  }
+
   async getBuyOrderWithFilters(filters) {
     return await this.buyOrderModel.findOne({
       where: { ...filters },
@@ -46,15 +52,15 @@ class SequelizeBuyOrderRepository {
   }
 
   async createBuyOrder(buyOrder) {
-    const buyOrderData = await this.buyOrderModel.create(
-      {
-        status: buyOrder.status,
-        sellerId: buyOrder.sellerId,
-        storeAddress: buyOrder.storeAddress,
-        customerName: buyOrder.customerName,
-        customerAddress: buyOrder.customerAddress,
-      }
-    );
+    console.log('***',buyOrder)
+    const buyOrderData = await this.buyOrderModel.create({
+      status: buyOrder.status,
+      sellerId: buyOrder.sellerId,
+      storeAddress: buyOrder.storeAddress,
+      customerName: buyOrder.customerName,
+      customerAddress: buyOrder.customerAddress,
+      createdBy: buyOrder.createdBy
+    });
 
     const buyOrderId = buyOrderData.id;
 
@@ -68,14 +74,12 @@ class SequelizeBuyOrderRepository {
   async createBuyOrderItems(products, buyOrderId) {
     await Promise.all(
       products.map(async (product) => {
-        await this.buyOrderItemModel.create(
-          {
-            name: product.name,
-            sku: product.sku,
-            quantity: product.quantity,
-            buyOrderId: buyOrderId,
-          }
-        );
+        await this.buyOrderItemModel.create({
+          name: product.name,
+          sku: product.sku,
+          quantity: product.quantity,
+          buyOrderId: buyOrderId,
+        });
       })
     );
   }
