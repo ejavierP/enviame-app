@@ -74,6 +74,20 @@ function createBuyOrdersRouter(ManageBuyOrdersUsecase) {
     }
   );
 
+  router.post(
+    "/orders/:id/cancel",
+    checkPermission("cancel-buy-orders"),
+    async (req, res) => {
+      try {
+        const id = req.params.id;
+        await ManageBuyOrdersUsecase.cancelBuyOrder(id, req.body.status);
+        res.status(200).json({ message: "Se cancelo la orden correctamente" });
+      } catch (error) {
+        res.status(error.status).send({ message: error.message });
+      }
+    }
+  );
+
   return router;
 }
 

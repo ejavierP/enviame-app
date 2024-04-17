@@ -21,7 +21,7 @@ function buildOrderFilters(role, status, orderId, userId) {
   }
 
   if (isMarketPlaceUser) {
-    filters.createdBy = userId;
+    filters.createdByUser = userId;
   }
   if (orderId) {
     filters.id = orderId;

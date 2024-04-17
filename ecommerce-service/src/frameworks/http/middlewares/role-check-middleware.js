@@ -27,7 +27,7 @@ module.exports = function (permission) {
           "view-single-buy-orders",
           "view-buy-orders",
           "create-buy-orders",
-          "cancel-buy-order",
+          "cancel-buy-orders",
         ],
       };
 

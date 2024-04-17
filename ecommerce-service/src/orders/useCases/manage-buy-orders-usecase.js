@@ -5,6 +5,7 @@ const {
 } = require("../../frameworks/http/errors/index");
 
 const { orderStatusSequence } = require("../utils/order-status-sequence-util");
+const { orderStatus } = require("../utils/order-status-util");
 
 class ManageBuyOrdersUsecase {
   constructor(buyOrdersRepository, productsRepository, storesRepository) {
@@ -92,6 +93,7 @@ class ManageBuyOrdersUsecase {
           name: product.name,
           sku: product.sku,
           quantity: product.quantity,
+          productId: product.id,
         });
       } else {
         const buyOrder = new BuyOrder(
@@ -102,6 +104,7 @@ class ManageBuyOrdersUsecase {
               name: product.name,
               sku: product.sku,
               quantity: product.quantity,
+              productId: product.id,
             },
           ],
           product.sellerId,
@@ -163,6 +166,42 @@ class ManageBuyOrdersUsecase {
             `El status enviado no corresponde a la secuencia proximo: ${nextOrderStatus.toUpperCase()}`
           );
         }
+      }
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async cancelBuyOrder(orderId) {
+    try {
+      const buyOrder = await this.buyOrdersRepository.getBuyOrderWithFilters({
+        id: orderId,
+      });
+
+      if (
+        (buyOrder && buyOrder.status === orderStatus.DISPATCHED) ||
+        buyOrder.status === orderStatus.CANCELLED
+      ) {
+        throw new BadRequestException(
+          `No se puede cancelar una orden en el status : ${buyOrder.status}`
+        );
+      }
+      if (buyOrder) {
+        await Promise.all(
+          buyOrder.buyOrderItems.map(async (orderItem) => {
+            const product = await this.productsRepository.getProduct(
+              orderItem.productId
+            );
+            await this.productsRepository.updateProduct({
+              id: orderItem.productId,
+              quantity: orderItem.quantity + product.quantity,
+            });
+            await this.buyOrdersRepository.updateBuyOrder({
+              id: orderId,
+              status: orderStatus.CANCELLED,
+            });
+          })
+        );
       }
     } catch (error) {
       throw new BadRequestException(error.message);

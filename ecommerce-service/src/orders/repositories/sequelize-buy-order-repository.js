@@ -1,10 +1,9 @@
 const { DataTypes } = require("sequelize");
 const { db } = require("../../frameworks/db/sequelize");
 
-
 class SequelizeBuyOrderRepository {
   constructor() {
-    this.buyOrderModel = db.BuyOrder
+    this.buyOrderModel = db.BuyOrder;
     this.buyOrderItemModel = db.BuyOrderItem;
   }
 
@@ -29,6 +28,7 @@ class SequelizeBuyOrderRepository {
   async getBuyOrderWithFilters(filters) {
     return await this.buyOrderModel.findOne({
       where: { ...filters },
+      include: [{ model:  this.buyOrderItemModel, as: "buyOrderItems" }],
     });
   }
 
@@ -39,7 +39,8 @@ class SequelizeBuyOrderRepository {
       storeAddress: buyOrder.storeAddress,
       customerName: buyOrder.customerName,
       customerAddress: buyOrder.customerAddress,
-      createdBy: buyOrder.createdBy
+      createdByUser: buyOrder.createdBy,
+      createdDate: new Date().toDateString(),
     });
 
     const buyOrderId = buyOrderData.id;
@@ -59,19 +60,20 @@ class SequelizeBuyOrderRepository {
           sku: product.sku,
           quantity: product.quantity,
           buyOrderId: buyOrderId,
+          productId: product.productId,
         });
       })
     );
   }
 
-  async updateBuyOrder(user) {
+  async updateBuyOrder(buyOrder) {
     const options = {
       where: {
-        id: user.id,
+        id: buyOrder.id,
       },
     };
 
-    await this.buyOrderModel.update(user, options);
+    await this.buyOrderModel.update(buyOrder, options);
   }
 
   async deleteBuyOrder(id) {

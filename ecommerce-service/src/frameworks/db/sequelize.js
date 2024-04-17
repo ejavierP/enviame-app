@@ -25,12 +25,15 @@ class SequelizeClient {
       alter: false,
     };
 
-    this.sequelize.sync(syncOptions).catch((error) => {
-      console.log("Couldn't sync database", error);
-    }).then(() => {
-      console.log('Seeding Database')
-      this.seedData()
-    })
+    this.sequelize
+      .sync(syncOptions)
+      .catch((error) => {
+        console.log("Couldn't sync database", error);
+      })
+      .then(() => {
+        console.log("Seeding Database");
+        this.seedData();
+      });
   }
 
   assocations() {
@@ -91,51 +94,66 @@ class SequelizeClient {
   }
 
   async seedData() {
-    await db.User.create({
-      name: "testUser",
-      password: "prueba",
-      email: "tes@gmail.com",
-      shippingAddress: "Av prologancion 27",
-      role: userRoles.MARKETPLACE,
+    await db.User.findOrCreate({
+      where: {
+        name: "testUser",
+      },
+      defaults: {
+        password: "prueba",
+        email: "tes@gmail.com",
+        shippingAddress: "Av prologancion 27",
+        role: userRoles.MARKETPLACE,
+      },
     });
-    const seller = await db.User.create({
-      name: "testUser2",
-      password: "prueba",
-      email: "tes@gmail2.com",
-      role: userRoles.SELLER,
+    const [seller, isUserCreated] = await db.User.findOrCreate({
+      where: {
+        name: "testUser2",
+      },
+      defaults: {
+        password: "prueba",
+        email: "tes@gmail2.com",
+        role: userRoles.SELLER,
+      },
     });
-    await db.User.create({
-      name: "testUser4",
-      password: "prueba",
-      email: "tes@gmail4.com",
-      role: userRoles.MARKETPLACE_ADMIN,
+    await db.User.findOrCreate({
+      where: { name: "testUser4" },
+      defaults: {
+        password: "prueba",
+        email: "tes@gmail4.com",
+        role: userRoles.MARKETPLACE_ADMIN,
+      },
     });
 
-    const store = await db.Store.create({
-      name: "La Sirena 27",
-      description: "Tienda para todo articulos",
-      warehouseAddress: "Av prologancion 27",
-      sellerId: seller.id,
+    const [store, isStoreCreated] = await db.Store.findOrCreate({
+      where: { name: "La Sirena 27" },
+      defaults: {
+        description: "Tienda para todo articulos",
+        warehouseAddress: "Av prologancion 27",
+        sellerId: seller.id,
+      },
     });
 
-    await db.Product.bulkCreate([
-      {
-        name: "Celular",
+    await db.Product.findOrCreate({
+      where: { name: "Celular" },
+      defaults: {
         description: "Rojo",
-        quantity: 10,
+        quantity: 25,
         sku: "SKU-001",
         price: 1200.8,
         storeId: store.id,
       },
-      {
-        name: "Carro",
+    });
+
+    await db.Product.findOrCreate({
+      where: { name: "Carro" },
+      defaults: {
         description: "Rojo",
-        quantity: 10,
+        quantity: 25,
         sku: "SKU-002",
         price: 8000.2,
         storeId: store.id,
       },
-    ]);
+    });
   }
 }
 
