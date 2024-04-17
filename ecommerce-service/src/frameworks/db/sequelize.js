@@ -27,7 +27,10 @@ class SequelizeClient {
 
     this.sequelize.sync(syncOptions).catch((error) => {
       console.log("Couldn't sync database", error);
-    });
+    }).then(() => {
+      console.log('Seeding Database')
+      this.seedData()
+    })
   }
 
   assocations() {
@@ -46,21 +49,25 @@ class SequelizeClient {
       Sequelize
     );
 
-    db.Store.belongsTo(db.User, { as: "stores", foreignKey: "storeId" });
+    db.Store.belongsTo(db.User, { as: "storeUser", foreignKey: "sellerId" });
+    db.User.hasMany(db.Store, {
+      as: "stores",
+      foreignKey: "sellerId",
+    });
 
     db.Store.hasMany(db.Product, {
       as: "products",
-      foreignKey: "productId",
+      foreignKey: "storeId",
     });
 
-    db.Product.belongsTo(db.Store, { as: "products", foreignKey: "productId" });
+    db.Product.belongsTo(db.Store, { as: "store", foreignKey: "storeId" });
 
     db.BuyOrder.belongsTo(db.User, {
-      as: "ordersSeller",
+      as: "seller",
       foreignKey: "sellerId",
     });
     db.BuyOrder.belongsTo(db.User, {
-      as: "ordersCreatedBy",
+      as: "createdBy",
       foreignKey: "createdByUser",
     });
 
@@ -70,86 +77,66 @@ class SequelizeClient {
     });
 
     db.BuyOrderItem.belongsTo(db.BuyOrder, {
-      as: "buyOrderItems",
+      as: "buyOrder",
       foreignKey: "buyOrderId",
     });
-
-    db.User.hasMany(db.Store, {
-      as: "stores",
-      foreignKey: "storeId",
-    });
     db.User.hasMany(db.BuyOrder, {
-      as: "ordersSeller",
+      as: "sellers",
       foreignKey: "sellerId",
     });
     db.User.hasMany(db.BuyOrder, {
-      as: "ordersCreatedBy",
+      as: "createdsBy",
       foreignKey: "createdByUser",
     });
   }
 
-  // async seedData() {
-  //   await db.User.bulkCreate([
-  //     {
-  //       name: "testUser",
-  //       password: "prueba",
-  //       email: "tes@gmail.com",
-  //       role: userRoles.MARKETPLACE,
-  //     },
-  //     {
-  //       name: "testUser2",
-  //       password: "prueba",
-  //       email: "tes@gmail2.com",
-  //       role: userRoles.SELLER,
-  //     },
-  //     {
-  //       name: "testUser3",
-  //       password: "prueba",
-  //       email: "tes@gmail3.com",
-  //       role: userRoles.SELLER,
-  //     },
-  //     {
-  //       name: "testUser4",
-  //       password: "prueba",
-  //       email: "tes@gmail4.com",
-  //       role: userRoles.MARKETPLACE_ADMIN,
-  //     },
-  //   ]);
+  async seedData() {
+    await db.User.create({
+      name: "testUser",
+      password: "prueba",
+      email: "tes@gmail.com",
+      shippingAddress: "Av prologancion 27",
+      role: userRoles.MARKETPLACE,
+    });
+    const seller = await db.User.create({
+      name: "testUser2",
+      password: "prueba",
+      email: "tes@gmail2.com",
+      role: userRoles.SELLER,
+    });
+    await db.User.create({
+      name: "testUser4",
+      password: "prueba",
+      email: "tes@gmail4.com",
+      role: userRoles.MARKETPLACE_ADMIN,
+    });
 
-  //   await db.Store.bulkCreate([
-  //     {
-  //       name: "La Sirena 27",
-  //       description: "Tienda para todo articulos",
-  //       warehouseAddress: "Av prologancion 27",
-  //       sellerId: 2,
-  //     },
-  //     {
-  //       name: "La Sirena Naco",
-  //       description: "Tienda para todo articulos",
-  //       warehouseAddress: "Av Naco DO",
-  //       sellerId: 3,
-  //     },
-  //   ]);
+    const store = await db.Store.create({
+      name: "La Sirena 27",
+      description: "Tienda para todo articulos",
+      warehouseAddress: "Av prologancion 27",
+      sellerId: seller.id,
+    });
 
-  //   await db.Product.bulkCreate([
-  //     {
-  //       name: "Celular",
-  //       description: "Rojo",
-  //       quantity: 10,
-  //       sku: "SKU-001",
-  //       price: 1200.8,
-  //       storeId: 1,
-  //     },
-  //     {
-  //       name: "Carro",
-  //       description: "Rojo",
-  //       quantity: 10,
-  //       sku: "SKU-002",
-  //       price: 8000.2,
-  //       storeId: 2,
-  //     },
-  //   ]);
-  // }
+    await db.Product.bulkCreate([
+      {
+        name: "Celular",
+        description: "Rojo",
+        quantity: 10,
+        sku: "SKU-001",
+        price: 1200.8,
+        storeId: store.id,
+      },
+      {
+        name: "Carro",
+        description: "Rojo",
+        quantity: 10,
+        sku: "SKU-002",
+        price: 8000.2,
+        storeId: store.id,
+      },
+    ]);
+  }
 }
 
 module.exports = { db, SequelizeClient };
