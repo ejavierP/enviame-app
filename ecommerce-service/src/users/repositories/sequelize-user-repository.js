@@ -1,23 +1,9 @@
 const { DataTypes } = require("sequelize");
-const userModel = require("./models/user-model");
+const { db } = require("../../frameworks/db/sequelize");
 
 class SequelizeUserRepository {
-  constructor(sequelizeClient, test = false) {
-    this.sequelizeClient = sequelizeClient;
-    this.test = test;
-
-    let tableName = "users";
-
-    if (test) {
-      tableName += "_test";
-    }
-
-    const options = {
-      tableName: tableName,
-      timestamps: false,
-    };
-
-    this.userModel = userModel(sequelizeClient, DataTypes, options);
+  constructor() {
+    this.userModel = db.User;
   }
 
   async getUsers() {

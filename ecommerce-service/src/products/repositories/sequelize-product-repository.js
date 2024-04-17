@@ -1,23 +1,9 @@
 const { DataTypes } = require("sequelize");
-const ProductModel = require("./models/product-model");
+const { db } = require("../../frameworks/db/sequelize");
 
 class SequelizeProductRepository {
-  constructor(sequelizeClient, test = false) {
-    this.sequelizeClient = sequelizeClient;
-    this.test = test;
-
-    let tableName = "products";
-
-    if (test) {
-      tableName += "_test";
-    }
-
-    const options = {
-      tableName: tableName,
-      timestamps: false,
-    };
-
-    this.productModel = ProductModel(sequelizeClient,DataTypes,options);
+  constructor() {
+    this.productModel = db.Product
   }
 
   async getProducts() {

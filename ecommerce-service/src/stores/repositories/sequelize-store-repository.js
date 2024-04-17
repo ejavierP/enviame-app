@@ -1,23 +1,9 @@
 const { DataTypes } = require("sequelize");
-const StoreModel = require("./models/store-model");
+const { db } = require("../../frameworks/db/sequelize");
 
 class SequelizeStoreRepository {
-  constructor(sequelizeClient, test = false) {
-    this.sequelizeClient = sequelizeClient;
-    this.test = test;
-
-    let tableName = "stores";
-
-    if (test) {
-      tableName += "_test";
-    }
-
-    const options = {
-      tableName: tableName,
-      timestamps: false,
-    };
-
-    this.storeModel = StoreModel(sequelizeClient,DataTypes,options);
+  constructor() {
+    this.storeModel = db.Store;
   }
 
   async getStores() {

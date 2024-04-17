@@ -1,30 +1,11 @@
 const { DataTypes } = require("sequelize");
-const BuyOrderModel = require("./models/buy-order-model");
-const BuyOrderItem = require("./models/buy-order-item-model");
+const { db } = require("../../frameworks/db/sequelize");
+
 
 class SequelizeBuyOrderRepository {
-  constructor(sequelizeClient, test = false) {
-    this.sequelizeClient = sequelizeClient;
-    this.test = test;
-
-    let tableNameOrders = "buyOrders";
-    let tableNameOrdersItem = "buyOrderItems";
-
-    if (test) {
-      tableNameOrders += "_test";
-      tableNameOrdersItem += "_test";
-    }
-
-    const options = {
-      tableName: tableNameOrders,
-      timestamps: false,
-    };
-
-    this.buyOrderModel = BuyOrderModel(sequelizeClient, DataTypes, options);
-    this.buyOrderItemModel = BuyOrderItem(sequelizeClient, DataTypes, {
-      tableName: tableNameOrdersItem,
-      timestamps: false,
-    });
+  constructor() {
+    this.buyOrderModel = db.BuyOrder
+    this.buyOrderItemModel = db.BuyOrderItem;
   }
 
   async getBuyOrders() {

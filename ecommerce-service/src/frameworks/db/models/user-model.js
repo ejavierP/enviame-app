@@ -1,5 +1,5 @@
-module.exports = (sequelizeClient, DataTypes, options) => {
-  const userModel = sequelizeClient.sequelize.define(
+module.exports = (sequelize, DataTypes) => {
+  const userModel = sequelize.define(
     "User",
     {
       id: {
@@ -17,12 +17,10 @@ module.exports = (sequelizeClient, DataTypes, options) => {
       password: DataTypes.STRING,
       role: DataTypes.STRING,
     },
-    options
+    {
+      tableName: "Users",
+      timestamps: false,
+    }
   );
-
-  userModel.associate = function (models) {
-    userModel.hasMany(models.Store, { as: "stores" });
-    userModel.hasMany(models.BuyOrder, { as: "buyOrders" });
-  };
   return userModel;
 };
