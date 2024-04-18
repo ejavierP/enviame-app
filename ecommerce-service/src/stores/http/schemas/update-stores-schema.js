@@ -1,12 +1,8 @@
 const Joi = require("joi");
 
 const updateStore = Joi.object().keys({
-  name: Joi.string()
-    .required()
-    .messages({ "any.required": "Debe proveer un nombre" }),
-  description: Joi.string()
-    .required()
-    .messages({ "any.required": "Debe proveer una descripcion" }),
+  name: Joi.string(),
+  description: Joi.string(),
   warehouseAddress: Joi.string()
     .required()
     .messages({ "any.required": "Debe proveer una descripcion" }),

@@ -54,6 +54,7 @@ class ManageDeliveriesUsecase {
 
       return delivery;
     } catch (error) {
+      console.log(error)
       throw new BadRequestException(error.message);
     }
   }

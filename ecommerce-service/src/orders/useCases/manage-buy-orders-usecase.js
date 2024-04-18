@@ -6,6 +6,7 @@ const {
 
 const { orderStatusSequence } = require("../utils/order-status-sequence-util");
 const { orderStatus } = require("../utils/order-status-util");
+const notifyDelivery = require("../../adapters/delivery-notifier");
 
 class ManageBuyOrdersUsecase {
   constructor(buyOrdersRepository, productsRepository, storesRepository) {
@@ -154,25 +155,52 @@ class ManageBuyOrdersUsecase {
 
   async updateOrderStatus(orderId, status) {
     try {
-      const buyOrder = await this.buyOrdersRepository.getBuyOrder(orderId);
+      const buyOrder = await this.buyOrdersRepository.getBuyOrderWithFilters({
+        id: orderId,
+      });
 
       if (buyOrder) {
         const nextOrderStatus = orderStatusSequence[buyOrder.status];
 
-        if (nextOrderStatus && nextOrderStatus === status) {
-          await this.buyOrdersRepository.updateBuyOrder({
-            id: orderId,
-            status,
-          });
-        } else {
+        if (nextOrderStatus && nextOrderStatus !== status) {
           throw new BadRequestException(
             `El status enviado no corresponde a la secuencia proximo: ${nextOrderStatus.toUpperCase()}`
           );
+        }
+        await this.buyOrdersRepository.updateBuyOrder({
+          id: orderId,
+          status,
+        });
+
+        if (nextOrderStatus === orderStatus.DISPATCHED) {
+          const deliveryOrder = this.transformOrderToDelivery(buyOrder);
+          await notifyDelivery(deliveryOrder);
         }
       }
     } catch (error) {
       throw new BadRequestException(error.message);
     }
+  }
+
+  transformOrderToDelivery(buyOrder) {
+    const products = buyOrder.buyOrderItems.map((product) => {
+      return {
+        sku: product.sku,
+        name: product.name,
+        qty: product.quantity,
+      };
+    });
+    const deliveryOrder = {
+      foreignOrderId: buyOrder.id,
+      origin: { address: buyOrder.storeAddress },
+      destination: {
+        name: buyOrder.customerName,
+        address: buyOrder.customerAddress,
+      },
+      status: orderStatus.DISPATCHED,
+      products: products,
+    };
+    return deliveryOrder;
   }
 
   async cancelBuyOrder(orderId) {

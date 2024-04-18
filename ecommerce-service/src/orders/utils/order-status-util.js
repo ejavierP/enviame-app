@@ -1,10 +1,10 @@
 const orderStatus = {
-  CREATED: "created",
-  CONFIRMED: "confirmed",
-  DISPATCHED: "dispatched",
-  CANCELLED: "cancelled",
-  DELIVERED: "delivered",
-  CANCELLED: "cancelled",
+  CREATED: "CREATED",
+  CONFIRMED: "CONFIRMED",
+  DISPATCHED: "DISPATCHED",
+  CANCELLED: "CANCELLED",
+  DELIVERED: "DELIVERED",
+  CANCELLED: "CANCELLED",
 };
 
 module.exports = {
