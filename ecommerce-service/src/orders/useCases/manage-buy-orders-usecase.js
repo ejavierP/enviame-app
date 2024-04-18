@@ -18,13 +18,16 @@ class ManageBuyOrdersUsecase {
     try {
       const productItems = await this.transformProducts(buyOrderData.products);
 
-      const buyOrdersGrouped = this.groupProductsOrders(productItems, userData);
+      const buyOrdersGrouped = this.orderProductBySeller(
+        productItems,
+        userData
+      );
 
       await Promise.all([
         buyOrdersGrouped.map(async (buyOrder) => {
           await this.buyOrdersRepository.createBuyOrder(buyOrder);
         }),
-        await this.reduceProductStock(productItems),
+        await this.discountProductStock(productItems),
       ]);
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -78,7 +81,7 @@ class ManageBuyOrdersUsecase {
     return productItems;
   }
 
-  groupProductsOrders(products, userData) {
+  orderProductBySeller(products, userData) {
     const buyOrders = [];
     let productInBuyOrderIndex;
     products.map((product) => {
@@ -98,7 +101,7 @@ class ManageBuyOrdersUsecase {
       } else {
         const buyOrder = new BuyOrder(
           undefined,
-          "created",
+          orderStatus.CREATED,
           [
             {
               name: product.name,
@@ -119,7 +122,7 @@ class ManageBuyOrdersUsecase {
     return buyOrders;
   }
 
-  async reduceProductStock(products) {
+  async discountProductStock(products) {
     products.map(async (productItem) => {
       await this.productsRepository.updateProduct({
         id: productItem.id,
@@ -183,7 +186,7 @@ class ManageBuyOrdersUsecase {
         buyOrder.status === orderStatus.CANCELLED
       ) {
         throw new BadRequestException(
-          `No se puede cancelar una orden en el status : ${buyOrder.status}`
+          `No se puede cancelar una orden en el status actual : ${buyOrder.status}`
         );
       }
       if (buyOrder) {
