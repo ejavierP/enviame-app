@@ -57,11 +57,11 @@ function createDeliveryRouter(
     }
   });
 
-  router.get("/deliveries/tracking", async (req, res) => {
+  router.get("/deliveries/:id/tracking", async (req, res) => {
     try {
       const id = req.params.id;
-      const store = await manageDeliveriesUseCase.getDelivery(id);
-      res.status(200).json(store);
+      const delivery = await manageDeliveriesUseCase.getDeliveryTrackings(id);
+      res.status(200).json(delivery);
     } catch (error) {
       res.status(httpStatusCode.NOT_FOUND).send({ message: error.message });
     }

@@ -8,7 +8,7 @@
         "dev": "nodemon src/index.js",
         "test": "mocha tests --recursive --timeout 10000"
     },
-    "author": "hans.auzian@enviame.io",
+    "author": "elvin",
     "license": "ISC",
     "dependencies": {
         "@google-cloud/firestore": "^4.10.0",

@@ -55,6 +55,22 @@ class SequelizeDeliveryRepository {
     return deliveriyTracking;
   }
 
+  async getDeliveryTrackings(filters) {
+    const deliveriyTracking = await this.deliveryModel.findAll({
+      attributes: ["status", "trackingNumber"],
+      where: { ...filters },
+      include: [
+        {
+          model: this.deliveryTrackingModel,
+          as: "trackings",
+          attributes: ["status", "date"],
+        },
+      ],
+    });
+
+    return deliveriyTracking;
+  }
+
   async createTracking(tracking) {
     try {
       const data = await this.deliveryTrackingModel.create(tracking);

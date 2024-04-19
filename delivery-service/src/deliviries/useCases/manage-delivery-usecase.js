@@ -36,7 +36,9 @@ class ManageDeliveriesUsecase {
 
   async getDeliveryTrackings(id) {
     try {
-      const delivery = await this.deliveryRepository.getDeliveriesTracking(id);
+      const delivery = await this.deliveryRepository.getDeliveryTrackings({
+        id: id,
+      });
       if (!delivery) {
         throw new NotFoundException(
           "No se encontro delivery con el id especificado"
@@ -44,7 +46,7 @@ class ManageDeliveriesUsecase {
       }
       return delivery;
     } catch (error) {
-      throw BadRequestException(error.message);
+      throw new BadRequestException(error.message);
     }
   }
 
@@ -111,7 +113,6 @@ class ManageDeliveriesUsecase {
 
   async updateDeliveriesStatus() {
     try {
-     
     } catch (error) {
       throw new BadRequestException(error.message);
     }
