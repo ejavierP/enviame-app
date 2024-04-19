@@ -4,6 +4,7 @@ Este repositorio contiene un proyecto de Node.js configurado para ejecutarse uti
 
 ## **Requisitos previos**
 Docker instalado en tu sistema. Puedes descargar Docker desde https://www.docker.com/get-started.
+Se adjunto una postman collection para probar todos los request
 
 ## **Pasos para ejecutar el proyecto**
 
@@ -15,7 +16,7 @@ https://github.com/ejavierP/enviame-app
 ```
 cd enviame-app
 ```
-3. ***Correr el proyecto con docker compose***
+3. ***Correr el proyecto con docker compose y esperar que todos los servicios este arriba***
 ```
 docker compose up
 ```
