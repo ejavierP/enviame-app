@@ -15,7 +15,7 @@ https://github.com/ejavierP/enviame-app
 ```
 cd enviame-app
 ```
-3. ***Correr el proyecto con docker compose***
+3. ***Correr el proyecto con docker compose y esperar que todos los servicios este arriba***
 ```
 docker compose up
 ```
