@@ -2,7 +2,11 @@ const { verify } = require("../jwt");
 module.exports = function () {
   return async function (req, res, next) {
     try {
-      const excludedPaths = ["/users/marketplace/register", "/users/login"];
+      const excludedPaths = [
+        "/users/marketplace/register",
+        "/users/login",
+        "/orders/status/webhook",
+      ];
       if (excludedPaths.includes(req.originalUrl)) {
         return next();
       }
@@ -10,6 +14,7 @@ module.exports = function () {
       const tokenNormalized = token.split(" ")[1];
       const decodedToken = await verify(tokenNormalized);
       req.user = decodedToken.user;
+      req.origin = "ORDERS";
       return next();
     } catch (err) {
       return next(res.status(401).json({ message: err.message }));

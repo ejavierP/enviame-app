@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, DataTypes) => {
   const deliveryModel = sequelize.define(
     "Delivery",
@@ -15,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       destinationAddress: { type: DataTypes.STRING, allowNull: false },
       trackingNumber: { type: DataTypes.STRING, allowNull: false },
       status: { type: DataTypes.STRING, allowNull: false },
+      date: { type: DataTypes.BIGINT, allowNull: false },
     },
     {
       tableName: "Deliveries",

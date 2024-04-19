@@ -5,7 +5,7 @@ const updateStore = Joi.object().keys({
   description: Joi.string(),
   warehouseAddress: Joi.string()
     .required()
-    .messages({ "any.required": "Debe proveer una descripcion" }),
+    .messages({ "any.required": "Debe proveer una tienda" }),
 });
 
 module.exports = { updateStore };

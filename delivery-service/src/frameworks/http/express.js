@@ -1,6 +1,6 @@
 const express = require("express");
 var cors = require("cors");
-const checkApiKey = require("../../frameworks/http/middlewares/check-api-key-ddleware");
+const checkApiKey = require("../../frameworks/http/middlewares/check-api-key-midddleware");
 // Módulo para crear una aplicación en Express
 // recibiendo las dependencias externamente.
 

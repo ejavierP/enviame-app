@@ -34,6 +34,7 @@ class SequelizeDeliveryRepository {
       where: {
         id: delivery.id,
       },
+      include: [{ model: this.deliveryTrackingModel, as: "trackings" }],
     };
 
     await this.deliveryModel.update(delivery, options);
@@ -44,14 +45,33 @@ class SequelizeDeliveryRepository {
     await delivery.destroy();
   }
 
-  async getDeliveriesTracking(filters) {
-    const deliveriesTracking = await this.deliveryModel.findAll({
+  async getDeliveryTracking(filters) {
+    const deliveriyTracking = await this.deliveryTrackingModel.findOne({
       raw: true,
       where: { ...filters },
-      include: [{ model: this.deliveryTrackingModel, as: "trackings" }],
+      order: [["date", "DESC"]],
     });
 
-    return deliveriesTracking;
+    return deliveriyTracking;
+  }
+
+  async createTracking(tracking) {
+    try {
+      const data = await this.deliveryTrackingModel.create(tracking);
+      return data.id;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async updateDeliveryTracking(deliveryTracking) {
+    const options = {
+      where: {
+        id: deliveryTracking.id,
+      },
+    };
+
+    await this.deliveryTrackingModel.update(deliveryTracking, options);
   }
 }
 

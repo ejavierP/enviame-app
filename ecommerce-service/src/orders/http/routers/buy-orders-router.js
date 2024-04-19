@@ -1,8 +1,10 @@
 const express = require("express");
 const validateSchema = require("../../../frameworks/http/middlewares/joi-validate-middleware");
-const { createBuyOrder } = require("../schemas/index");
+const { createBuyOrder, updateBuyOrderStatus } = require("../schemas/index");
 const checkPermission = require("../../../frameworks/http/middlewares/role-check-middleware");
 const { buildOrderFilters } = require("../../utils/build-order-filters-util");
+const checkApiKey = require("../../../frameworks/http/middlewares/check-api-key-middleware");
+const { BadRequestException } = require("../../../frameworks/http/errors");
 
 function createBuyOrdersRouter(ManageBuyOrdersUsecase) {
   const router = express.Router();
@@ -64,7 +66,11 @@ function createBuyOrdersRouter(ManageBuyOrdersUsecase) {
     async (req, res) => {
       try {
         const id = req.params.id;
-        await ManageBuyOrdersUsecase.updateOrderStatus(id, req.body.status);
+        await ManageBuyOrdersUsecase.updateOrderStatus(
+          id,
+          req.body.status,
+          req.origin
+        );
         res
           .status(200)
           .json({ message: "Se transiciono la orden correctamente" });
@@ -82,6 +88,26 @@ function createBuyOrdersRouter(ManageBuyOrdersUsecase) {
         const id = req.params.id;
         await ManageBuyOrdersUsecase.cancelBuyOrder(id, req.body.status);
         res.status(200).json({ message: "Se cancelo la orden correctamente" });
+      } catch (error) {
+        res.status(error.status).send({ message: error.message });
+      }
+    }
+  );
+
+  router.post(
+    "/orders/status/webhook",
+    validateSchema(updateBuyOrderStatus),
+    checkApiKey(process.env.ECOMMERCE_API_KEY),
+    async (req, res) => {
+      try {
+        await ManageBuyOrdersUsecase.updateOrderStatus(
+          req.body.orderId,
+          req.body.status,
+          req.origin
+        );
+        res.status(200).json({
+          message: "Se Actualizo el status de la orden orden correctamente",
+        });
       } catch (error) {
         res.status(error.status).send({ message: error.message });
       }

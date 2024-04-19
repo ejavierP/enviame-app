@@ -7,14 +7,9 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-
-      trackingNumber: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-      },
       status: { type: DataTypes.STRING, allowNull: false },
-      date: { type: DataTypes.STRING, allowNull: false },
+      date: { type: DataTypes.BIGINT, allowNull: false },
+      isNotified: { type: DataTypes.BOOLEAN, allowNull: false },
     },
     {
       tableName: "DeliveryTrackings",

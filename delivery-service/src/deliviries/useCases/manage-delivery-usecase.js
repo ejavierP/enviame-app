@@ -6,9 +6,18 @@ const {
 const {
   generateTrackingNumber,
 } = require("../utils/generate-tracking-number-utils");
+
+const {
+  deliveryStatus,
+  deliveryStatusSequence,
+} = require("../utils/delivery-status.util");
+
+const notifyOrderStatus = require("../../frameworks/adapters/orders-notifier");
+
 class ManageDeliveriesUsecase {
-  constructor(deliveryRepository) {
+  constructor(deliveryRepository, deliveryConfigHookRepository) {
     this.deliveryRepository = deliveryRepository;
+    this.deliveryConfigHookRepository = deliveryConfigHookRepository;
   }
 
   async getDeliveries() {
@@ -25,19 +34,35 @@ class ManageDeliveriesUsecase {
     return delivery;
   }
 
-  async createDelivery(data) {
-    const trackingNumber = generateTrackingNumber();
-    const originAddress = data.origin.address;
-    const customerAddress = data.destination.address;
-    const customerName = data.destination.name;
-    const trackings = [
-      {
-        status: data.status,
-        trackingNumber: trackingNumber,
-        date: new Date().toString(),
-      },
-    ];
+  async getDeliveryTrackings(id) {
     try {
+      const delivery = await this.deliveryRepository.getDeliveriesTracking(id);
+      if (!delivery) {
+        throw new NotFoundException(
+          "No se encontro delivery con el id especificado"
+        );
+      }
+      return delivery;
+    } catch (error) {
+      throw BadRequestException(error.message);
+    }
+  }
+
+  async createDelivery(data) {
+    try {
+      const trackingNumber = generateTrackingNumber();
+      const originAddress = data.origin.address;
+      const customerAddress = data.destination.address;
+      const customerName = data.destination.name;
+
+      const trackings = [
+        {
+          status: data.status,
+          trackingNumber: trackingNumber,
+          date: Date.now(),
+          isNotified: false,
+        },
+      ];
       const delivery = new Delivery(
         undefined,
         data.foreignOrderId,
@@ -47,6 +72,7 @@ class ManageDeliveriesUsecase {
         customerAddress,
         trackingNumber,
         data.status,
+        Date.now(),
         trackings
       );
       const id = await this.deliveryRepository.createDelivery(delivery);
@@ -54,7 +80,7 @@ class ManageDeliveriesUsecase {
 
       return delivery;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new BadRequestException(error.message);
     }
   }
@@ -63,6 +89,7 @@ class ManageDeliveriesUsecase {
     const originAddress = data.origin.address;
     const customerAddress = data.destination.address;
     const customerName = data.destination.name;
+
     try {
       const delivery = new Delivery(
         id,
@@ -77,6 +104,14 @@ class ManageDeliveriesUsecase {
       await this.deliveryRepository.updateDelivery(delivery);
 
       return delivery;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async updateDeliveriesStatus() {
+    try {
+     
     } catch (error) {
       throw new BadRequestException(error.message);
     }

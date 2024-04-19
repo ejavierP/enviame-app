@@ -153,26 +153,29 @@ class ManageBuyOrdersUsecase {
     }
   }
 
-  async updateOrderStatus(orderId, status) {
+  async updateOrderStatus(orderId, status, origin) {
     try {
       const buyOrder = await this.buyOrdersRepository.getBuyOrderWithFilters({
         id: orderId,
       });
 
-      if (buyOrder) {
-        const nextOrderStatus = orderStatusSequence[buyOrder.status];
+      const nextOrderStatus = orderStatusSequence[buyOrder.status];
 
-        if (nextOrderStatus && nextOrderStatus !== status) {
-          throw new BadRequestException(
-            `El status enviado no corresponde a la secuencia proximo: ${nextOrderStatus.toUpperCase()}`
-          );
+      if (buyOrder) {
+        if (origin && origin === "ORDERS") {
+          if (nextOrderStatus && nextOrderStatus !== status) {
+            throw new BadRequestException(
+              `El status enviado no corresponde a la secuencia proximo: ${nextOrderStatus.toUpperCase()}`
+            );
+          }
         }
+
         await this.buyOrdersRepository.updateBuyOrder({
           id: orderId,
           status,
         });
 
-        if (nextOrderStatus === orderStatus.DISPATCHED) {
+        if (nextOrderStatus && nextOrderStatus === orderStatus.DISPATCHED) {
           const deliveryOrder = this.transformOrderToDelivery(buyOrder);
           await notifyDelivery(deliveryOrder);
         }

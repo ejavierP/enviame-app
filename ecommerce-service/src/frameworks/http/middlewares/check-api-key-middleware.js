@@ -1,13 +1,10 @@
 module.exports = function (apiKey) {
   return async function (req, res, next) {
     try {
-      
-      console.log(apiKey)
-
       const headerApiKey = req.headers["x-api-key"];
-      const deliveryApiKey = apiKey;
+      const ecommerceKey = apiKey;
 
-      if (headerApiKey && headerApiKey === deliveryApiKey) {
+      if (headerApiKey && headerApiKey === ecommerceKey) {
         return next();
       }
 

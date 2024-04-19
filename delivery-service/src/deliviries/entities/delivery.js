@@ -8,6 +8,7 @@ class Delivery {
     destinationAddress,
     trackingNumber,
     status,
+    date,
     trackings
   ) {
     this.id = id;
@@ -18,7 +19,8 @@ class Delivery {
     this.destinationAddress = destinationAddress;
     this.trackingNumber = trackingNumber;
     this.status = status;
-    this.trackings = trackings;
+    this.date = date;
+    this.trackings = trackings
   }
 }
 

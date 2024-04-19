@@ -96,7 +96,7 @@ class SequelizeClient {
   async seedData() {
     await db.User.findOrCreate({
       where: {
-        name: "testUser",
+        name: "Marketplace",
       },
       defaults: {
         password: "prueba",
@@ -107,19 +107,19 @@ class SequelizeClient {
     });
     const [seller, isUserCreated] = await db.User.findOrCreate({
       where: {
-        name: "testUser2",
+        name: "Seller",
       },
       defaults: {
         password: "prueba",
-        email: "tes@gmail2.com",
+        email: "tes@gmail.com",
         role: userRoles.SELLER,
       },
     });
     await db.User.findOrCreate({
-      where: { name: "testUser4" },
+      where: { name: "MarketplaceADM" },
       defaults: {
         password: "prueba",
-        email: "tes@gmail4.com",
+        email: "tes@gmail.com",
         role: userRoles.MARKETPLACE_ADMIN,
       },
     });

@@ -43,6 +43,11 @@ class SequelizeClient {
       Sequelize
     );
 
+    db.DeliveryHook = require("./models/deelivery-hook.js")(
+      this.sequelize,
+      Sequelize
+    );
+
     db.Delivery.hasMany(db.DeliveryProduct, {
       as: "products",
       foreignKey: "deliveryId",
