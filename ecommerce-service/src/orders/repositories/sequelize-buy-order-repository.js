@@ -21,14 +21,17 @@ class SequelizeBuyOrderRepository {
 
   async getBuyOrdersWithFilters(filters) {
     return await this.buyOrderModel.findAll({
+      attributes: ["id","status","storeAddress","customerName","customerAddress"],
       where: { ...filters },
+      include: [{ model:  this.buyOrderItemModel, as: "buyOrderItems",  attributes: ["name","sku","quantity"], }],
     });
   }
 
   async getBuyOrderWithFilters(filters) {
     return await this.buyOrderModel.findOne({
+      attributes: ["status","storeAddress","customerName","customerAddress"],
       where: { ...filters },
-      include: [{ model:  this.buyOrderItemModel, as: "buyOrderItems" }],
+      include: [{ model:  this.buyOrderItemModel, as: "buyOrderItems", attributes: ["name","sku","quantity","productId"] }],
     });
   }
 

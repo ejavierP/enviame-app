@@ -58,7 +58,7 @@ function createStoreRouter(manageStoresUsecase) {
       try {
         const id = req.params.id;
         await manageStoresUsecase.deleteStore(id);
-        res.status(200).send(`Deleted ${id}`);
+        res.status(200).json(`Se elimino el store con el id: ${id}`);
       } catch (error) {
         res.status(error.status).json({ message: error.message });
       }

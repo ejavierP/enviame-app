@@ -16,7 +16,7 @@ function createUserRouter(ManageUsersUsecase) {
 
   router.post("/users/login", validateSchema(loginUser), async (req, res) => {
     const token = await ManageUsersUsecase.login(req.body);
-    res.status(201).send({ token });
+    res.status(200).send({ token });
   });
 
   return router;
