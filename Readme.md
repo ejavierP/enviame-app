@@ -4,7 +4,6 @@ Este repositorio contiene un proyecto de Node.js configurado para ejecutarse uti
 
 ## **Requisitos previos**
 Docker instalado en tu sistema. Puedes descargar Docker desde https://www.docker.com/get-started.
-Se adjunto una postman collection para probar todos los request
 
 ## **Pasos para ejecutar el proyecto**
 
