@@ -34,7 +34,12 @@ class SequelizeDeliveryRepository {
       where: {
         id: delivery.id,
       },
-      include: [{ model: this.deliveryTrackingModel, as: "trackings" }],
+      include: [
+        {
+          model: this.deliveryProductModel,
+          as: "products",
+        },
+      ],
     };
 
     await this.deliveryModel.update(delivery, options);
@@ -42,7 +47,12 @@ class SequelizeDeliveryRepository {
 
   async deleteDelivery(id) {
     const delivery = await this.deliveryModel.findOne({ where: { id } });
-    await delivery.destroy();
+    await delivery.destroy({
+      include: [
+        { model: this.deliveryTrackingModel, as: "trackings" },
+        { model: this.deliveryProductModel, as: "products" },
+      ],
+    });
   }
 
   async getDeliveryTracking(filters) {

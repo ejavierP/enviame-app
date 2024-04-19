@@ -1,0 +1,2352 @@
+{
+	"info": {
+		"_postman_id": "52da44da-1b82-4b6a-be00-0ba71830fb4d",
+		"name": "Enviame",
+		"description": "Coleccion perteneciente a todas las entidades para el servicio de delivery y ecommerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5583407"
+	},
+	"item": [
+		{
+			"name": "Crear Usuario Marketplace",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"correo@example.com\",\n  \"password\": \"Isaac20\",\n  \"shippingAddress\": \"Mi casa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/users/marketplace/register",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"users",
+						"marketplace",
+						"register"
+					]
+				},
+				"description": "Este endpoint es para crear los usuarios en la ecommerce app esta abierto para todo el mundo."
+			},
+			"response": [
+				{
+					"name": "Crear Usuario Marketplace",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"correo@example.com\",\n  \"password\": \"Isaac20\",\n  \"shippingAddress\": \"Mi casa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ecommerceServiceUrl}}/users/marketplace/register",
+							"host": [
+								"{{ecommerceServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"marketplace",
+								"register"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "126"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"7e-oMmK0BnjBgFXBmSwzqUvZmZ5XRw\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 04:47:03 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 7,\n    \"name\": \"Test User\",\n    \"password\": \"Isaac20\",\n    \"email\": \"correo@example.com\",\n    \"shippingAddress\": \"Mi casa\",\n    \"role\": \"marketplace\"\n}"
+				}
+			]
+		},
+		{
+			"name": "User Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"const token = jsonData?.token\r",
+							"\r",
+							"if(token) {\r",
+							"pm.collectionVariables.set('Token', token)  \r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Marketplace\",\r\n  \"password\": \"Prueba\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/users/login",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				},
+				"description": "Este endpoint es para autenticarse en el servicio de ecommerce necesario para todos los endpoints"
+			},
+			"response": [
+				{
+					"name": "User Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Marketplace\",\r\n  \"password\": \"Prueba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ecommerceServiceUrl}}/users/login",
+							"host": [
+								"{{ecommerceServiceUrl}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "328"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"148-mSB/RB0BaYs9/Xexw1tobxBCNfU\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 04:45:13 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJuYW1lIjoiTWFya2V0cGxhY2UiLCJlbWFpbCI6InRlc0BnbWFpbC5jb20iLCJzaGlwcGluZ0FkZHJlc3MiOiJBdiBwcm9sb2dhbmNpb24gMjciLCJwYXNzd29yZCI6InBydWViYSIsInJvbGUiOiJtYXJrZXRwbGFjZSJ9LCJpYXQiOjE3MTM1MDE5MTMsImV4cCI6MTcxMzUwNTUxM30.HSgLi9wi2Eb-HSRNA0pIkfSCjsFXYX6hJ2E7QU_kxYA\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Obtener Todos los Stores",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/stores",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"stores"
+					]
+				},
+				"description": "Este endpoint es para obtener todas las tiendas disponibles en el servicio de ecommerce solo esta permitido para los usuarios con el role de marketplace admin"
+			},
+			"response": [
+				{
+					"name": "Obtener todos los stores",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ecommerceServiceUrl}}/stores",
+							"host": [
+								"{{ecommerceServiceUrl}}"
+							],
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "245"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"f5-EgQ4pkoMB57kZSwOrURj/l7VF38\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:01:35 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"La Sirena 27\",\n        \"description\": \"Tienda para todo articulos\",\n        \"warehouseAddress\": \"Av prologancion 27\",\n        \"sellerId\": 2\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Bravo Churchill\",\n        \"description\": \"Av Churchill\",\n        \"warehouseAddress\": \"Av Churchill con 27\",\n        \"sellerId\": 2\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Obtener Store Por Id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/stores",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"stores"
+					]
+				},
+				"description": "Este endpoint es para obtener una tienda en el servicio de ecommerce solo esta permitido para los usuarios con el role de marketplace admin y seller"
+			},
+			"response": [
+				{
+					"name": "Obtener Store Por Id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/stores/{{storeId}}",
+							"path": [
+								"stores",
+								"{{storeId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "116"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"74-egt3r5zlKmX4k3lmqh+wpSHGs3s\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:19:59 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"name\": \"Bravo Churchill\",\n    \"description\": \"Av Churchill\",\n    \"warehouseAddress\": \"Av Churchill con 27\",\n    \"sellerId\": 2\n}"
+				}
+			]
+		},
+		{
+			"name": "Crear Store",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Super Mi casa\",\n    \"description\": \"Tienda para todo\",\n    \"sellerId\": 2\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/stores",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"stores"
+					]
+				},
+				"description": "Este es endpoint es para crear las tiendas dentro del servicio de ecommerce solo esta permtido para usuarios con el role de marketplace admin"
+			},
+			"response": [
+				{
+					"name": "Crear Store",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Super Mi casa\",\n    \"description\": \"Tienda para todo\",\n    \"sellerId\": 2\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ecommerceServiceUrl}}/stores",
+							"host": [
+								"{{ecommerceServiceUrl}}"
+							],
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "77"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"4d-l25f3bEglfW7hK8U2/25gTjF8bk\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:04:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 3,\n    \"name\": \"Super Mi casa\",\n    \"description\": \"Tienda para todo\",\n    \"sellerId\": 2\n}"
+				}
+			]
+		},
+		{
+			"name": "Crear Store Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Super Mi casa\",\n    \"description\": \"Tienda para todo\",\n    \"sellerId\": 2\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/stores",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"stores"
+					]
+				},
+				"description": "Este es endpoint es para crear las tiendas dentro del servicio de ecommerce solo esta permtido para usuarios con el role de marketplace admin"
+			},
+			"response": [
+				{
+					"name": "Crear Store",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Super Mi casa\",\n    \"description\": \"Tienda para todo\",\n    \"sellerId\": 2\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/stores",
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "77"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"4d-l25f3bEglfW7hK8U2/25gTjF8bk\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:04:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 3,\n    \"name\": \"Super Mi casa\",\n    \"description\": \"Tienda para todo\",\n    \"sellerId\": 2\n}"
+				}
+			]
+		},
+		{
+			"name": "Actualizar Direccion de los Stores",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"warehouseAddress\": \"Mi Casa\"\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/stores/{{storeId}}",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"stores",
+						"{{storeId}}"
+					]
+				},
+				"description": "Este es endpoint es para actualizar la direccion de la tienda dentro del servicio de ecommerce solo esta permtido para usuarios con el role de marketplace admin o seller\n\nSe debe reemplazar {{storeId}} con el id de la tienda a actualizar"
+			},
+			"response": [
+				{
+					"name": "Actualizar Direccion de los Stores",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"warehouseAddress\": \"Mi Casa\"\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ecommerceServiceUrl}}/stores/{{storeId}}",
+							"host": [
+								"{{ecommerceServiceUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "39"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"27-jAAfk5sDuaR7SRlw4Yn+g/aGeVQ\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:09:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"1\",\n    \"warehouseAddress\": \"Mi Casa\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Borrar Store",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/stores/1",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"stores",
+						"1"
+					]
+				},
+				"description": "Este es endpoint es para actualizar la direccion de la tienda dentro del servicio de ecommerce solo esta permtido para usuarios con el role de marketplace admin o seller\n\nSe debe reemplazar {{storeId}} con el id de la tienda a actualizar"
+			},
+			"response": [
+				{
+					"name": "Borrar Store",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "/stores/1",
+							"path": [
+								"stores",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "32"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"20-UHrvw0gFeTMc+4kV334hZTXXEOM\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:16:12 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "Se elimino el store con el id: 1"
+				}
+			]
+		},
+		{
+			"name": "Crear Producto",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Celular\",\n    \"description\": \"Color Rojo\",\n    \"storeId\": 2,\n    \"sku\": \"SKU-CEL-ROJO\",\n    \"quantity\": 20,\n    \"price\": 20.80\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/products",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"products"
+					]
+				},
+				"description": "Este es endpoint es para crear los productos en los stores dentro del servicio de ecommerce solo esta permitido para usuarios con el role del seller"
+			},
+			"response": [
+				{
+					"name": "Crear Producto",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Celular\",\n    \"description\": \"Color Rojo\",\n    \"storeId\": 2,\n    \"sku\": \"SKU-CEL-ROJO\",\n    \"quantity\": 20,\n    \"price\": 20.80\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/products",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"70-MfsHpLLQHlDguxSYlyuqCn1VmIw\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:24:39 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 5,\n    \"name\": \"Celular\",\n    \"description\": \"Color Rojo\",\n    \"quantity\": 20,\n    \"sku\": \"SKU-CEL-ROJO\",\n    \"price\": 20.8,\n    \"storeId\": 2\n}"
+				}
+			]
+		},
+		{
+			"name": "Crear Producto Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Celular\",\n    \"description\": \"Color Rojo\",\n    \"storeId\": 2,\n    \"sku\": \"SKU-CEL-ROJO\",\n    \"quantity\": 20,\n    \"price\": 20.80\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/products",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"products"
+					]
+				},
+				"description": "Este es endpoint es para crear los productos en los stores dentro del servicio de ecommerce solo esta permitido para usuarios con el role del seller"
+			},
+			"response": [
+				{
+					"name": "Crear Producto",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Celular\",\n    \"description\": \"Color Rojo\",\n    \"storeId\": 2,\n    \"sku\": \"SKU-CEL-ROJO\",\n    \"quantity\": 20,\n    \"price\": 20.80\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ecommerceServiceUrl}}/products",
+							"host": [
+								"{{ecommerceServiceUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"70-MfsHpLLQHlDguxSYlyuqCn1VmIw\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:24:39 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 5,\n    \"name\": \"Celular\",\n    \"description\": \"Color Rojo\",\n    \"quantity\": 20,\n    \"sku\": \"SKU-CEL-ROJO\",\n    \"price\": 20.8,\n    \"storeId\": 2\n}"
+				}
+			]
+		},
+		{
+			"name": "Crear Buy Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"products\": [{\"id\": \"4\",\"quantity\":1}]\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/orders",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				},
+				"description": "Este es endpoint es para crear los buy orders del servicio de ecommerce solo esta permitido para usuarios con el role marketplace"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Todos los Productos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/products",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"products"
+					]
+				},
+				"description": "Este es endpoint es para obtener todos los productos del servicio de ecommerce solo esta permtidos para usuarios con el role de seller"
+			},
+			"response": [
+				{
+					"name": "Obtener todos los productos",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Celular\",\n    \"description\": \"Color Rojo\",\n    \"storeId\": 2,\n    \"sku\": \"SKU-CEL-ROJO\",\n    \"quantity\": 20,\n    \"price\": 20.80\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ecommerceServiceUrl}}/products",
+							"host": [
+								"{{ecommerceServiceUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "326"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"146-fZDyeF6phbACQiLbmYmVfOvQ1w8\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:28:56 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 3,\n        \"name\": \"Lapiz\",\n        \"description\": \"Azul\",\n        \"quantity\": 18,\n        \"sku\": \"PPK-AZUL\",\n        \"price\": 20.5,\n        \"storeId\": 2\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Max Steel\",\n        \"description\": \"Verde\",\n        \"quantity\": 18,\n        \"sku\": \"PPK-MAX-VERDE\",\n        \"price\": 1000,\n        \"storeId\": 2\n    },\n    {\n        \"id\": 5,\n        \"name\": \"Celular\",\n        \"description\": \"Color Rojo\",\n        \"quantity\": 20,\n        \"sku\": \"SKU-CEL-ROJO\",\n        \"price\": 20.8,\n        \"storeId\": 2\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Obtener Todos los Buy Orders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/orders",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"orders"
+					]
+				},
+				"description": "Este es endpoint es para obtener todos los buy orders del servicio de ecommerce solo esta permtidos para usuarios con el role marketplace y seller\n\nEn caso de ser un usuario seller solo vas a ver las ordenes de compra asignadas ati\n\nEn caso de ser un usuario marketplace solo podras ver las ordenes de compra hechas por ti"
+			},
+			"response": [
+				{
+					"name": "Obtener Todos los Buy Orders",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Celular\",\n    \"description\": \"Color Rojo\",\n    \"storeId\": 2,\n    \"sku\": \"SKU-CEL-ROJO\",\n    \"quantity\": 20,\n    \"price\": 20.80\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/orders",
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "208"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"d0-REAU5j9MHnmN8URC1EdZktgvhbk\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 12:00:58 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 2,\n        \"status\": \"CREATED\",\n        \"storeAddress\": \"Av Churchill con 27\",\n        \"customerName\": \"Marketplace\",\n        \"customerAddress\": \"Av prologancion 27\",\n        \"buyOrderItems\": [\n            {\n                \"name\": \"Max Steel\",\n                \"sku\": \"PPK-MAX-VERDE\",\n                \"quantity\": 1\n            }\n        ]\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Obtener Buy Order Por Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/orders/{{buyOrderId}}",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"orders",
+						"{{buyOrderId}}"
+					]
+				},
+				"description": "Este es endpoint es para obtener una sola buy order del servicio de ecommerce solo esta permtidos para usuarios con el role marketplace y seller"
+			},
+			"response": [
+				{
+					"name": "Obtener Buy Order Por Id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/orders/{{buyOrderId}}",
+							"path": [
+								"orders",
+								"{{buyOrderId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "199"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"c7-qXlYaDB+F3qXR5RRQxjSpmL0LcM\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 12:01:36 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"CREATED\",\n    \"storeAddress\": \"Av Churchill con 27\",\n    \"customerName\": \"Marketplace\",\n    \"customerAddress\": \"Av prologancion 27\",\n    \"buyOrderItems\": [\n        {\n            \"name\": \"Max Steel\",\n            \"sku\": \"PPK-MAX-VERDE\",\n            \"quantity\": 1\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Cancelar Buy Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/orders/{{orderId}}/cancel",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"orders",
+						"{{orderId}}",
+						"cancel"
+					]
+				},
+				"description": "Este es endpoint es para cancelar las buy orders del servicio de ecommerce solo esta permtidos para usuarios con el role marketplace"
+			},
+			"response": [
+				{
+					"name": "Cancelar Buy Order",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "/orders/{{orderId}}/cancel",
+							"path": [
+								"orders",
+								"{{orderId}}",
+								"cancel"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "47"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2f-Q8rho0VeYYWUtcjbTIq4ilNh+G0\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 12:30:00 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Se cancelo la orden correctamente\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Actualizar Status Buy Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"CONFIRMED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/orders/{{orderId}}/status/update",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"orders",
+						"{{orderId}}",
+						"status",
+						"update"
+					]
+				},
+				"description": "Este es endpoint es para actualizar los status de las buy order del servicio de ecommerce solo esta permtidos para usuarios con el role seller"
+			},
+			"response": [
+				{
+					"name": "Actualizar Status Buy Order",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"CONFIRMED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/orders/{{orderId}}/status/update",
+							"path": [
+								"orders",
+								"{{orderId}}",
+								"status",
+								"update"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "51"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"33-JdHimGpMI7uh0DAHQrJLr8JcVDo\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 12:08:05 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Se transiciono la orden correctamente\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Obtener Producto Por Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/products/{{productId}}",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Este es endpoint es para obtener un producto dentro del servicio de ecommerce solo esta permtidos para usuarios con el role de seller"
+			},
+			"response": [
+				{
+					"name": "Obtener Producto Por Id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Celular\",\n    \"description\": \"Color Rojo\",\n    \"storeId\": 2,\n    \"sku\": \"SKU-CEL-ROJO\",\n    \"quantity\": 20,\n    \"price\": 20.80\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ecommerceServiceUrl}}/products/{{productId}}",
+							"host": [
+								"{{ecommerceServiceUrl}}"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "110"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"6e-6uhHt6773xvG8QUzpAazljF2WKs\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:35:07 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 4,\n    \"name\": \"Max Steel\",\n    \"description\": \"Verde\",\n    \"quantity\": 18,\n    \"sku\": \"PPK-MAX-VERDE\",\n    \"price\": 1000,\n    \"storeId\": 2\n}"
+				}
+			]
+		},
+		{
+			"name": "Actualizar Producto",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Max Steel\",\n    \"description\": \"Verde\",\n    \"quantity\": 40,\n    \"sku\": \"PPK-MAX-VERDE\",\n    \"price\": 1000,\n    \"storeId\": 2\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/products/{{productId}}",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Este es endpoint es para actualizar un producto dentro del servicio de ecommerce solo esta permtidos para usuarios con el role de role de seller"
+			},
+			"response": [
+				{
+					"name": "Actualizar Producto",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Max Steel\",\n    \"description\": \"Verde\",\n    \"quantity\": 40,\n    \"sku\": \"PPK-MAX-VERDE\",\n    \"price\": 1000,\n    \"storeId\": 2\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ecommerceServiceUrl}}/products/4",
+							"host": [
+								"{{ecommerceServiceUrl}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "112"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"70-dDsXkNCD5d/LQpmeheTK0WZIGq0\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 11:38:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"4\",\n    \"name\": \"Max Steel\",\n    \"description\": \"Verde\",\n    \"quantity\": 40,\n    \"sku\": \"PPK-MAX-VERDE\",\n    \"price\": 1000,\n    \"storeId\": 2\n}"
+				}
+			]
+		},
+		{
+			"name": "Crear Delivery",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "763734b1-d347-4429-875b-9596c4bb1475",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"foreignOrderId\": 2,\r\n    \"products\": [{\"sku\": \"PPK01\", \"name\": \"test product\", \"qty\": 1}],\r\n    \"origin\": {\r\n     \"address\": \"test address\"\r\n    },\r\n    \"destination\": {\"name\": \"Yo\", \"address\":\"mi casa\"},\r\n    \"status\": \"DISPATCHED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{deliveryServiceUrl}}/deliveries",
+					"host": [
+						"{{deliveryServiceUrl}}"
+					],
+					"path": [
+						"deliveries"
+					]
+				},
+				"description": "Este es endpoint es para crear los delivery dentro del servicio de delivery se debe proveer el api key dentro de los headers"
+			},
+			"response": [
+				{
+					"name": "Crear Delivery",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "763734b1-d347-4429-875b-9596c4bb1475",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"foreignOrderId\": 2,\r\n    \"products\": [{\"sku\": \"PPK01\", \"name\": \"test product\", \"qty\": 1}],\r\n    \"origin\": {\r\n     \"address\": \"test address\"\r\n    },\r\n    \"destination\": {\"name\": \"Yo\", \"address\":\"mi casa\"},\r\n    \"status\": \"DISPATCHED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/deliveries",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"deliveries"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "357"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"165-D/K1laM7DAr2gE/sSLqmlFgyt3k\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 13:33:46 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"foreignOrderId\": 2,\n    \"products\": [\n        {\n            \"sku\": \"PPK01\",\n            \"name\": \"test product\",\n            \"qty\": 1\n        }\n    ],\n    \"originAddress\": \"test address\",\n    \"customerName\": \"Yo\",\n    \"destinationAddress\": \"mi casa\",\n    \"trackingNumber\": \"TRK5775XXXXXDO\",\n    \"status\": \"DISPATCHED\",\n    \"date\": 1713533626451,\n    \"trackings\": [\n        {\n            \"status\": \"DISPATCHED\",\n            \"trackingNumber\": \"TRK5775XXXXXDO\",\n            \"date\": 1713533626451,\n            \"isNotified\": false\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Configurar Hook",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "763734b1-d347-4429-875b-9596c4bb1475",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"test url\",\r\n    \"apiKey\": \"test api key\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{deliveryServiceUrl}}/deliveries/webhook/config",
+					"host": [
+						"{{deliveryServiceUrl}}"
+					],
+					"path": [
+						"deliveries",
+						"webhook",
+						"config"
+					]
+				},
+				"description": "Este es endpoint es para configurar hacia que endpoint sera notificados los estados de las ordenes\n\nSe tienen un cronjob que actualiza el estatus de las ordenes cada 30 segundos\n\nconfigurar el hook con estos valores para su correcto funcionamiento\n\nurl: [http://127.0.0.1:8000/orders/status/webhook](http://127.0.0.1:8001/deliveries)  \napiKey: c2f32268-f0b0-4627-9524-e375c3c2f3"
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Delivery",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "763734b1-d347-4429-875b-9596c4bb1475",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"foreignOrderId\": 2,\r\n    \"products\": [{\"sku\": \"PPK01\", \"name\": \"test product\", \"qty\": 1},{\"sku\": \"PPK02\", \"name\": \"test product\", \"qty\": 2}],\r\n    \"origin\": {\r\n     \"address\": \"test address\"\r\n    },\r\n    \"destination\": {\"name\": \"Yo\", \"address\":\"mi casa\"},\r\n    \"status\": \"DISPATCHED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{deliveryServiceUrl}}/deliveries/{{deliveryId}}",
+					"host": [
+						"{{deliveryServiceUrl}}"
+					],
+					"path": [
+						"deliveries",
+						"{{deliveryId}}"
+					]
+				},
+				"description": "Este es endpoint es para acutalizar los delivery dentro del servicio de delivery se debe proveer el api key dentro de los headers"
+			},
+			"response": [
+				{
+					"name": "Actualizar Delivery",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "763734b1-d347-4429-875b-9596c4bb1475",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"foreignOrderId\": 2,\r\n    \"products\": [{\"sku\": \"PPK01\", \"name\": \"test product\", \"qty\": 1}],\r\n    \"origin\": {\r\n     \"address\": \"test address\"\r\n    },\r\n    \"destination\": {\"name\": \"Yo\", \"address\":\"mi casa\"},\r\n    \"status\": \"DISPATCHED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/deliveries",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"deliveries"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "357"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"165-D/K1laM7DAr2gE/sSLqmlFgyt3k\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 13:33:46 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"foreignOrderId\": 2,\n    \"products\": [\n        {\n            \"sku\": \"PPK01\",\n            \"name\": \"test product\",\n            \"qty\": 1\n        }\n    ],\n    \"originAddress\": \"test address\",\n    \"customerName\": \"Yo\",\n    \"destinationAddress\": \"mi casa\",\n    \"trackingNumber\": \"TRK5775XXXXXDO\",\n    \"status\": \"DISPATCHED\",\n    \"date\": 1713533626451,\n    \"trackings\": [\n        {\n            \"status\": \"DISPATCHED\",\n            \"trackingNumber\": \"TRK5775XXXXXDO\",\n            \"date\": 1713533626451,\n            \"isNotified\": false\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Obtener Deliviries",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "763734b1-d347-4429-875b-9596c4bb1475",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{deliveryServiceUrl}}/deliveries",
+					"host": [
+						"{{deliveryServiceUrl}}"
+					],
+					"path": [
+						"deliveries"
+					]
+				},
+				"description": "Este es endpoint es para obtener los delivery dentro del servicio de delivery se debe proveer el api key dentro de los headers"
+			},
+			"response": [
+				{
+					"name": "Obtener Deliviries",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "763734b1-d347-4429-875b-9596c4bb1475",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"foreignOrderId\": 2,\r\n    \"products\": [{\"sku\": \"PPK01\", \"name\": \"test product\", \"qty\": 1},{\"sku\": \"PPK02\", \"name\": \"test product\", \"qty\": 2}],\r\n    \"origin\": {\r\n     \"address\": \"test address\"\r\n    },\r\n    \"destination\": {\"name\": \"Yo\", \"address\":\"mi casa\"},\r\n    \"status\": \"DISPATCHED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8001/deliveries",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"deliveries"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "188"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"bc-kEKc0W2PqYoecXmDrKpD+hWBBdU\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 14:01:02 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"foreignOrderId\": 2,\n        \"customerName\": \"Yo\",\n        \"originAddress\": \"test address\",\n        \"destinationAddress\": \"mi casa\",\n        \"trackingNumber\": \"TRK5775XXXXXDO\",\n        \"status\": \"DISPATCHED\",\n        \"date\": 1713495306852\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Obtener Delivery Por Id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "763734b1-d347-4429-875b-9596c4bb1475",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{deliveryServiceUrl}}/deliveries/{{deliveryId}}",
+					"host": [
+						"{{deliveryServiceUrl}}"
+					],
+					"path": [
+						"deliveries",
+						"{{deliveryId}}"
+					]
+				},
+				"description": "Este es endpoint es para obtener los delivery por id dentro del servicio de delivery se debe proveer el api key dentro de los headers"
+			},
+			"response": [
+				{
+					"name": "Obtener Delivery Por Id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "763734b1-d347-4429-875b-9596c4bb1475",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8001/deliveries/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"deliveries",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "186"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"ba-acDrc3IPk9osoy7F35kKwryZYHo\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 14:04:48 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"foreignOrderId\": 2,\n    \"customerName\": \"Yo\",\n    \"originAddress\": \"test address\",\n    \"destinationAddress\": \"mi casa\",\n    \"trackingNumber\": \"TRK5775XXXXXDO\",\n    \"status\": \"DISPATCHED\",\n    \"date\": 1713495306852\n}"
+				}
+			]
+		},
+		{
+			"name": "Obtener Delivery Tracking",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "763734b1-d347-4429-875b-9596c4bb1475",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{deliveryServiceUrl}}/deliveries/tracking/history?trackingNumber={{trackingNumber}}&foreignOrderId={{foreignOrderId}}",
+					"host": [
+						"{{deliveryServiceUrl}}"
+					],
+					"path": [
+						"deliveries",
+						"tracking",
+						"history"
+					],
+					"query": [
+						{
+							"key": "trackingNumber",
+							"value": "{{trackingNumber}}"
+						},
+						{
+							"key": "foreignOrderId",
+							"value": "{{foreignOrderId}}"
+						}
+					]
+				},
+				"description": "Este es endpoint es para obtener el historico de los status de los delivery dentro del servicio de delivery se debe proveer el api key dentro de los headers"
+			},
+			"response": [
+				{
+					"name": "Obtener Delivery Tracking",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "763734b1-d347-4429-875b-9596c4bb1475",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8001/deliveries/{{deliveryId}}/tracking",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8001",
+							"path": [
+								"deliveries",
+								"{{deliveryId}}",
+								"tracking"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "313"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"139-9uh1oeaCZ9mAy/QwFNukslvy7+I\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 19 Apr 2024 14:07:28 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"status\": \"DISPATCHED\",\n        \"trackingNumber\": \"TRK5775XXXXXDO\",\n        \"trackings\": [\n            {\n                \"status\": \"DISPATCHED\",\n                \"date\": 1713495306852\n            },\n            {\n                \"status\": \"READY_FOR_PICK_UP\",\n                \"date\": 1713495730019\n            },\n            {\n                \"status\": \"AT_ORIGIN\",\n                \"date\": 1713495820032\n            },\n            {\n                \"status\": \"EN_ROUTE_OF_DELIVERY\",\n                \"date\": 1713496810022\n            },\n            {\n                \"status\": \"DELIVERED\",\n                \"date\": 1713497460029\n            }\n        ]\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Borrar Producto",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ecommerceServiceUrl}}/products/{{productId}}",
+					"host": [
+						"{{ecommerceServiceUrl}}"
+					],
+					"path": [
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Este es endpoint es para borrar un producto dentro del servicio de ecomemrce solo esta permtidos para usuarios con el role role de seller"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Delivery",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "763734b1-d347-4429-875b-9596c4bb1475",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{deliveryServiceUrl}}/deliveries/{{deliveryId}}",
+					"host": [
+						"{{deliveryServiceUrl}}"
+					],
+					"path": [
+						"deliveries",
+						"{{deliveryId}}"
+					]
+				},
+				"description": "Este es endpoint es para borrar los delivery dentro del servicio de delivery se debe proveer el api key dentro de los headers"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "ecommerceServiceUrl",
+			"value": "http://127.0.0.1:8000"
+		},
+		{
+			"key": "ecommerceServiceUrl",
+			"value": ""
+		},
+		{
+			"key": "Token",
+			"value": ""
+		},
+		{
+			"key": "BearerToken",
+			"value": ""
+		},
+		{
+			"key": "deliveryServiceUrl",
+			"value": "http://127.0.0.1:8001"
+		}
+	]
+}

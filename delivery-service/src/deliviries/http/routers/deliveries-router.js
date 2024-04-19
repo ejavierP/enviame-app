@@ -2,6 +2,7 @@ const express = require("express");
 const validateSchema = require("../../../frameworks/http/middlewares/joi-validate-middleware");
 const { createDelivery, webhookConfig } = require("../schemas/index");
 const httpStatusCode = require("../../../frameworks/http/utils/http-status-code-utils");
+const { BadRequestException } = require("../errors");
 
 function createDeliveryRouter(
   manageDeliveriesUseCase,
@@ -57,10 +58,14 @@ function createDeliveryRouter(
     }
   });
 
-  router.get("/deliveries/:id/tracking", async (req, res) => {
+  router.get("/deliveries/tracking/history", async (req, res) => {
     try {
-      const id = req.params.id;
-      const delivery = await manageDeliveriesUseCase.getDeliveryTrackings(id);
+      if (!req.query.foreignOrderId && !req.query.trackingNumber) {
+        throw new BadRequestException(
+          "Debes especificar el numero de orden y el numero de tracking"
+        );
+      }
+      const delivery = await manageDeliveriesUseCase.getDeliveryTrackings(req.query);
       res.status(200).json(delivery);
     } catch (error) {
       res.status(httpStatusCode.NOT_FOUND).send({ message: error.message });

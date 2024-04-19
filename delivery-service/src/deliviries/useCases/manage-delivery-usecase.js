@@ -34,14 +34,15 @@ class ManageDeliveriesUsecase {
     return delivery;
   }
 
-  async getDeliveryTrackings(id) {
+  async getDeliveryTrackings(filters) {
     try {
       const delivery = await this.deliveryRepository.getDeliveryTrackings({
-        id: id,
+        foreignOrderId: filters.foreignOrderId,
+        trackingNumber: filters.trackingNumber,
       });
       if (!delivery) {
         throw new NotFoundException(
-          "No se encontro delivery con el id especificado"
+          "No se encontro delivery"
         );
       }
       return delivery;
@@ -100,7 +101,7 @@ class ManageDeliveriesUsecase {
         originAddress,
         customerName,
         customerAddress,
-        data.trackingNumber,
+        undefined,
         data.status
       );
       await this.deliveryRepository.updateDelivery(delivery);
@@ -111,14 +112,7 @@ class ManageDeliveriesUsecase {
     }
   }
 
-  async updateDeliveriesStatus() {
-    try {
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
-  }
-
-  async delete(id) {
+  async deleteDelivery(id) {
     try {
       await this.deliveryRepository.deleteDelivery(id);
     } catch (error) {
