@@ -227,11 +227,11 @@ class ManageBuyOrdersUsecase {
         await Promise.all(
           buyOrder.buyOrderItems.map(async (orderItem) => {
             const product = await this.productsRepository.getProduct(
-              orderItem.dataValues.productId
+              orderItem.productId
             );
             await this.productsRepository.updateProduct({
               id: orderItem.productId,
-              quantity: orderItem.dataValues.quantity + product.quantity,
+              quantity: orderItem.quantity + product.quantity,
             });
             await this.buyOrdersRepository.updateBuyOrder({
               id: orderId,
