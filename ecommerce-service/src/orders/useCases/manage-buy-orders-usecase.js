@@ -176,7 +176,10 @@ class ManageBuyOrdersUsecase {
         });
 
         if (nextOrderStatus && nextOrderStatus === orderStatus.DISPATCHED) {
-          const deliveryOrder = this.transformOrderToDelivery(buyOrder);
+          const items = await this.buyOrdersRepository.getBuyOrderItems({
+            buyOrderId: buyOrder.id,
+          });
+          const deliveryOrder = this.transformOrderToDelivery(buyOrder, items);
           await notifyDelivery(deliveryOrder);
         }
       }
@@ -185,8 +188,8 @@ class ManageBuyOrdersUsecase {
     }
   }
 
-  transformOrderToDelivery(buyOrder) {
-    const products = buyOrder.buyOrderItems.map((product) => {
+  transformOrderToDelivery(buyOrder, items) {
+    const products = items.map((product) => {
       return {
         sku: product.sku,
         name: product.name,
@@ -223,8 +226,6 @@ class ManageBuyOrdersUsecase {
       if (buyOrder) {
         await Promise.all(
           buyOrder.buyOrderItems.map(async (orderItem) => {
-
-          
             const product = await this.productsRepository.getProduct(
               orderItem.dataValues.productId
             );

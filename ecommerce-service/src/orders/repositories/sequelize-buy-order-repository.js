@@ -21,17 +21,34 @@ class SequelizeBuyOrderRepository {
 
   async getBuyOrdersWithFilters(filters) {
     return await this.buyOrderModel.findAll({
-      attributes: ["id","status","storeAddress","customerName","customerAddress"],
+      attributes: [
+        "id",
+        "status",
+        "storeAddress",
+        "customerName",
+        "customerAddress",
+      ],
       where: { ...filters },
-      include: [{ model:  this.buyOrderItemModel, as: "buyOrderItems",  attributes: ["name","sku","quantity"], }],
+      include: [
+        {
+          model: this.buyOrderItemModel,
+          as: "buyOrderItems",
+          attributes: ["name", "sku", "quantity"],
+        },
+      ],
     });
   }
 
   async getBuyOrderWithFilters(filters) {
     return await this.buyOrderModel.findOne({
-      attributes: ["status","storeAddress","customerName","customerAddress"],
+      raw: true,
       where: { ...filters },
-      include: [{ model:  this.buyOrderItemModel, as: "buyOrderItems", attributes: ["name","sku","quantity","productId"] }],
+      include: [
+        {
+          model: this.buyOrderItemModel,
+          as: "buyOrderItems",
+        },
+      ],
     });
   }
 
@@ -53,6 +70,13 @@ class SequelizeBuyOrderRepository {
     }
 
     return buyOrderId;
+  }
+
+  async getBuyOrderItems(filters) {
+    return await this.buyOrderItemModel.findAll({
+      raw: true,
+      where: { ...filters },
+    });
   }
 
   async createBuyOrderItems(products, buyOrderId) {

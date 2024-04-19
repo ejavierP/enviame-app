@@ -21,6 +21,8 @@ function scheduleOrderUpdate() {
       const deliveryConfigsHook =
         await deliveryConfigHookRepository.getDeliveriesHookConfig();
 
+       
+
       deliveries.map(async (delivery) => {
         const lastTracking =
           await sequelizeDeliveryRepository.getDeliveryTracking({
@@ -49,7 +51,7 @@ function scheduleOrderUpdate() {
 
             await sequelizeDeliveryRepository.createTracking(nexTracking);
             await notifyOrderStatus(deliveryConfigsHook[0], {
-              status,
+              status: lastTracking.status,
               orderId: delivery.foreignOrderId,
             });
             await sequelizeDeliveryRepository.updateDeliveryTracking({
