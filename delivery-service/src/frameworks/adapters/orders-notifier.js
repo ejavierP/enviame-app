@@ -16,7 +16,7 @@ async function notifyOrderStatus(config, order) {
       }
     );
   } catch (error) {
-   console.log("**--*-*-",error)
+   console.log(error)
   }
 }
 module.exports = notifyOrderStatus;
